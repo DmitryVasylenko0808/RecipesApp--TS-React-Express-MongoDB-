@@ -9,7 +9,7 @@ class ProfileController {
                 return res.status(404).json({ message: "Profile is not found" });
             }
 
-            res.json(user);
+            res.json(recipe);
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Server error" });

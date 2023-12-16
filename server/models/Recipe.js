@@ -10,9 +10,9 @@ const RecipeSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        type: {
+        kind: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Type",
+            ref: "Kind",
             required: true
         },
         author: {

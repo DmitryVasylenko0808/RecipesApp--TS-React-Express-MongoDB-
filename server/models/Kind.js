@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const TypeSchema = new mongoose.Schema(
+const KindSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -10,6 +10,6 @@ const TypeSchema = new mongoose.Schema(
     }
 );
 
-const TypeModel = mongoose.model("Type", TypeSchema);
+const KindModel = mongoose.model("Kind", KindSchema);
 
-module.exports = TypeModel;
+module.exports = KindModel;
