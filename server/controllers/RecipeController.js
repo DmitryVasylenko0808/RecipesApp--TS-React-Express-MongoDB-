@@ -57,21 +57,26 @@ class RecipeController {
             const offset = 5;
 
             const { userId } = req.params;
-            let { page, sortDate, kind } = req.query;
-            page = parseFloat(page) - 1;
-            sortDate = parseFloat(sortDate);
+            // let { page, sortDate, kind } = req.query;
+            // page = parseFloat(page) - 1;
+            // sortDate = parseFloat(sortDate);
 
-            const filter = { author: userId };
-            if (kind) {
-                filter.kind = kind;
-            }
+            // const filter = { _id: userId };
+            // if (kind) {
+            //     filter.kind = kind;
+            // }
 
-            const recipes = await RecipeModel
-                .find(filter, "title date ratings kind image ratings")
-                .skip(page * offset)
-                .limit(offset)
-                .sort({ date: sortDate })
-                .populate("kind", "title");
+            const data = await UserModel
+                .findById(userId)
+                .populate({
+                    path: "favorite_recipes",
+                    select: "title date ratings kind image ratings",
+                    populate: {
+                        path: "kind",
+                        select: "title"
+                    }
+                });
+            const recipes = data.favorite_recipes;
 
             res.json(recipes);
         } catch (err) {
@@ -173,7 +178,16 @@ class RecipeController {
 
     static async addFavorite(req, res) {
         try {
+            await UserModel.updateOne(
+                { _id: req.userId },
+                {
+                    $push: {
+                        favorite_recipes: req.body.id
+                    }
+                }
+            );
 
+            res.json({ message: "Recipe is added" });
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Server error" });

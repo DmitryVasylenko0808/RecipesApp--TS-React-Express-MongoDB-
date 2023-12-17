@@ -10,7 +10,7 @@ router.get("/favorites/:userId", RecipeController.getFavorites);
 router.get("/user/:userId", RecipeController.getByUser);
 router.get("/search/:value", RecipeController.getSearched);
 router.post("/", isAuthenticated, RecipeController.create);
-router.post("/favorites", isAuthenticated);
+router.post("/favorites", isAuthenticated, RecipeController.addFavorite);
 router.patch("/:id", isAuthenticated);
 router.delete("/:id", isAuthenticated);
 router.delete("/favorites/:id", isAuthenticated);
