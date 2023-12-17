@@ -6,6 +6,7 @@ const config = require("./config");
 
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
+const recipeRoutes = require("./routes/recipes");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(fileUpload());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/recipe", recipeRoutes);
 
 const main = async () => {
     try {
