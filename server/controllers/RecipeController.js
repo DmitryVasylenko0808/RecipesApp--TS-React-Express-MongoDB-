@@ -196,7 +196,38 @@ class RecipeController {
 
     static async edit(req, res) {
         try {
+            const { id } = req.params;
+            const data = req.body;
 
+            let updated;
+            let imageFileName;
+            if (req.files?.image_file) {
+                const file = req.files.image_file;
+                imageFileName = `${uuidv4()}-${file.name.replaceAll(" ", "-")}`;
+
+                await file.mv(`../server/public/recipes/${imageFileName}`);
+
+                updated = { ...data, image: imageFileName };
+            } else {
+                updated = { ...data };
+            }
+
+            await RecipeModel.updateOne(
+                { _id: id },
+                {
+                    ...updated,
+                    ingredients: JSON.parse(data.ingredients),
+                    directions: JSON.parse(data.directions),
+                    nutritions: {
+                        calories: data.calories,
+                        carbs: data.carbs,
+                        fat: data.fat,
+                        protein: data.protein
+                    }
+                }
+            );
+
+            res.json({ message: "Recipe is edited" });
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Server error" });
@@ -205,7 +236,9 @@ class RecipeController {
 
     static async delete(req, res) {
         try {
+            await RecipeModel.deleteOne({ _id: req.params.id });
 
+            res.json({ message: "Recipe is deleted" });
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Server error" });
@@ -214,7 +247,16 @@ class RecipeController {
 
     static async deleteFavorite(req, res) {
         try {
+            await UserModel.updateOne(
+                { _id: req.userId },
+                {
+                    $pull: {
+                        favorite_recipes: req.params.id
+                    }
+                }
+            );
 
+            res.json({ message: "Recipe is deleted" });
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Server error" });

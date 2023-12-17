@@ -11,8 +11,8 @@ router.get("/user/:userId", RecipeController.getByUser);
 router.get("/search/:value", RecipeController.getSearched);
 router.post("/", isAuthenticated, RecipeController.create);
 router.post("/favorites", isAuthenticated, RecipeController.addFavorite);
-router.patch("/:id", isAuthenticated);
-router.delete("/:id", isAuthenticated);
-router.delete("/favorites/:id", isAuthenticated);
+router.patch("/:id", isAuthenticated, RecipeController.edit);
+router.delete("/:id", isAuthenticated, RecipeController.delete);
+router.delete("/favorites/:id", isAuthenticated, RecipeController.deleteFavorite);
 
 module.exports = router;
