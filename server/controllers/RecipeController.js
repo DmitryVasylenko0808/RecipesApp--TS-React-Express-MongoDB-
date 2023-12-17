@@ -1,6 +1,7 @@
 const RecipeModel = require("../models/Recipe");
 const KindModel = require("../models/Kind");
 const UserModel = require("../models/User");
+const { v4: uuidv4 } = require("uuid");
 
 class RecipeController {
     static async getAll(req, res) {
@@ -138,7 +139,32 @@ class RecipeController {
 
     static async create(req, res) {
         try {
+            const data = req.body;
 
+            let imageFileName;
+            if (req.files?.image_file) {
+                const file = req.files.image_file;
+                imageFileName = `${uuidv4()}-${file.name.replaceAll(" ", "-")}`;
+
+                await file.mv(`../server/public/recipes/${imageFileName}`);
+            }
+
+            const doc = new RecipeModel({
+                ...data,
+                author: req.userId,
+                image: imageFileName ?? null,
+                ingredients: JSON.parse(data.ingredients),
+                directions: JSON.parse(data.directions),
+                nutritions: {
+                    calories: data.calories,
+                    carbs: data.carbs,
+                    fat: data.fat,
+                    protein: data.protein
+                }
+            });
+            await doc.save();
+
+            res.json({ message: "Recipe is successfully created" });
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Server error" });
