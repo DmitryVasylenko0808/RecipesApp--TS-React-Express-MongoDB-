@@ -53,6 +53,21 @@ class RecipeController {
         }
     }
 
+    static async getKinds(req, res) {
+        try {
+            const kinds = await KindModel.find();
+
+            if (!kinds.length) {
+                return res.status(404).json({ message: "Kinds are not found" });
+            }
+
+            res.json(kinds);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Server error" });
+        }
+    }
+
     static async getFavorites(req, res) {
         try {
             const offset = 2;
@@ -275,33 +290,33 @@ class RecipeController {
         }
     }
 
-    static async addReview(req, res) {
-        try {
-            const review_doc = new ReviewModel({
-                author: req.userId,
-                text: req.body.text
-            });
-            const review = await review_doc.save();
+    // static async addReview(req, res) {
+    //     try {
+    //         const review_doc = new ReviewModel({
+    //             author: req.userId,
+    //             text: req.body.text
+    //         });
+    //         const review = await review_doc.save();
 
-            const recipe = await RecipeModel.findByIdAndUpdate(
-                req.body.id,
-                {
-                    $push: {
-                        reviews: review._id
-                    }
-                }
-            );
+    //         const recipe = await RecipeModel.findByIdAndUpdate(
+    //             req.body.id,
+    //             {
+    //                 $push: {
+    //                     reviews: review._id
+    //                 }
+    //             }
+    //         );
 
-            if (!recipe) {
-                return res.status(404).json({ message: "Recipe is not found" });
-            }
+    //         if (!recipe) {
+    //             return res.status(404).json({ message: "Recipe is not found" });
+    //         }
 
-            res.json({ message: "Review is added" });
-        } catch (err) {
-            console.log(err);
-            res.status(500).json({ message: "Server error" });
-        }
-    }
+    //         res.json({ message: "Review is added" });
+    //     } catch (err) {
+    //         console.log(err);
+    //         res.status(500).json({ message: "Server error" });
+    //     }
+    // }
 
     static async delete(req, res) {
         try {

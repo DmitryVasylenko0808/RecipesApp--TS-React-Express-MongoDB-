@@ -38,13 +38,7 @@ const RecipeSchema = new mongoose.Schema(
             3: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
             2: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
             1: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-        },
-        reviews: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Review"
-            }
-        ]
+        }
     }
 );
 
