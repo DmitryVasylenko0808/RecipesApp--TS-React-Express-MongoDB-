@@ -11,7 +11,9 @@ router.get("/user/:userId", RecipeController.getByUser);
 router.get("/search/:value", RecipeController.getSearched);
 router.post("/", isAuthenticated, RecipeController.create);
 router.post("/favorites", isAuthenticated, RecipeController.addFavorite);
+router.post("/review", isAuthenticated, RecipeController.addReview);
 router.patch("/:id", isAuthenticated, RecipeController.edit);
+router.patch("/rate/:id", isAuthenticated, RecipeController.rate);
 router.delete("/:id", isAuthenticated, RecipeController.delete);
 router.delete("/favorites/:id", isAuthenticated, RecipeController.deleteFavorite);
 

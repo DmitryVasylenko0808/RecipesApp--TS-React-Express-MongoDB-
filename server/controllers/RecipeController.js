@@ -2,6 +2,7 @@ const RecipeModel = require("../models/Recipe");
 const KindModel = require("../models/Kind");
 const UserModel = require("../models/User");
 const { v4: uuidv4 } = require("uuid");
+const ReviewModel = require("../models/Review");
 
 class RecipeController {
     static async getAll(req, res) {
@@ -54,20 +55,15 @@ class RecipeController {
 
     static async getFavorites(req, res) {
         try {
-            const offset = 5;
+            const offset = 2;
 
             const { userId } = req.params;
-            // let { page, sortDate, kind } = req.query;
-            // page = parseFloat(page) - 1;
-            // sortDate = parseFloat(sortDate);
-
-            // const filter = { _id: userId };
-            // if (kind) {
-            //     filter.kind = kind;
-            // }
+            let { page, sortDate, kind } = req.query;
+            page = parseFloat(page) - 1;
+            sortDate = parseFloat(sortDate);
 
             const data = await UserModel
-                .findById(userId)
+                .findById(userId, "favorite_recipes")
                 .populate({
                     path: "favorite_recipes",
                     select: "title date ratings kind image ratings",
@@ -76,7 +72,17 @@ class RecipeController {
                         select: "title"
                     }
                 });
-            const recipes = data.favorite_recipes;
+
+            let recipes = data.favorite_recipes;
+
+            if (kind) {
+                recipes = recipes.filter(r => r.kind._id.toString() === kind);
+            }
+            if (sortDate) {
+                if (sortDate === 1) recipes = recipes.sort((a, b) => a.date - b.date);
+                else if (sortDate === -1) recipes = recipes.sort((a, b) => b.date - a.date);
+            }
+            recipes = recipes.slice(page * offset, page + offset);
 
             res.json(recipes);
         } catch (err) {
@@ -228,6 +234,69 @@ class RecipeController {
             );
 
             res.json({ message: "Recipe is edited" });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Server error" });
+        }
+    }
+
+    static async rate(req, res) {
+        try {
+            const { value } = req.body;
+
+            const recipe = await RecipeModel.findOne({
+                _id: req.params.id,
+                $or: [
+                    { "ratings.1": { $in: [req.userId] } },
+                    { "ratings.2": { $in: [req.userId] } },
+                    { "ratings.3": { $in: [req.userId] } },
+                    { "ratings.4": { $in: [req.userId] } },
+                    { "ratings.5": { $in: [req.userId] } },
+                ]
+            });
+
+            if (recipe) {
+                return res.status(403).json({ message: "Recipe is already rated" });
+            }
+
+            await RecipeModel.updateOne(
+                { _id: req.params.id },
+                {
+                    $push: {
+                        [`ratings.${value}`]: req.userId
+                    }
+                }
+            );
+
+            res.json({ message: "Recipe is rated" });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Server error" });
+        }
+    }
+
+    static async addReview(req, res) {
+        try {
+            const review_doc = new ReviewModel({
+                author: req.userId,
+                text: req.body.text
+            });
+            const review = await review_doc.save();
+
+            const recipe = await RecipeModel.findByIdAndUpdate(
+                req.body.id,
+                {
+                    $push: {
+                        reviews: review._id
+                    }
+                }
+            );
+
+            if (!recipe) {
+                return res.status(404).json({ message: "Recipe is not found" });
+            }
+
+            res.json({ message: "Review is added" });
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Server error" });
