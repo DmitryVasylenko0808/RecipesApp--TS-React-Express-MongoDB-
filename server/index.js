@@ -7,6 +7,7 @@ const config = require("./config");
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const recipeRoutes = require("./routes/recipes");
+const favoriteRecipes = require("./routes/favoriteRecipes");
 const reviewRoutes = require("./routes/review");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(fileUpload());
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/recipe", recipeRoutes);
+app.use("/api/recipe/favorites", favoriteRecipes);
 app.use("/api/review", reviewRoutes);
 
 const main = async () => {
