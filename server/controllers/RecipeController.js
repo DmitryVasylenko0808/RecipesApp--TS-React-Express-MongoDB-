@@ -7,7 +7,7 @@ const ReviewModel = require("../models/Review");
 class RecipeController {
     static async getAll(req, res) {
         try {
-            const offset = 5;
+            const offset = 12;
 
             let { page, sortDate, kind } = req.query;
             page = parseFloat(page) - 1;
@@ -70,7 +70,7 @@ class RecipeController {
 
     static async getFavorites(req, res) {
         try {
-            const offset = 2;
+            const offset = 12;
 
             const { userId } = req.params;
             let { page, sortDate, kind } = req.query;
@@ -108,7 +108,7 @@ class RecipeController {
 
     static async getByUser(req, res) {
         try {
-            const offset = 5;
+            const offset = 12;
 
             const { userId } = req.params;
             let { page, sortDate, kind } = req.query;
@@ -136,7 +136,7 @@ class RecipeController {
 
     static async getSearched(req, res) {
         try {
-            const offset = 5;
+            const offset = 12;
 
             const regex = new RegExp(`.*${req.params.value}.*`);
 
@@ -289,34 +289,6 @@ class RecipeController {
             res.status(500).json({ message: "Server error" });
         }
     }
-
-    // static async addReview(req, res) {
-    //     try {
-    //         const review_doc = new ReviewModel({
-    //             author: req.userId,
-    //             text: req.body.text
-    //         });
-    //         const review = await review_doc.save();
-
-    //         const recipe = await RecipeModel.findByIdAndUpdate(
-    //             req.body.id,
-    //             {
-    //                 $push: {
-    //                     reviews: review._id
-    //                 }
-    //             }
-    //         );
-
-    //         if (!recipe) {
-    //             return res.status(404).json({ message: "Recipe is not found" });
-    //         }
-
-    //         res.json({ message: "Review is added" });
-    //     } catch (err) {
-    //         console.log(err);
-    //         res.status(500).json({ message: "Server error" });
-    //     }
-    // }
 
     static async delete(req, res) {
         try {

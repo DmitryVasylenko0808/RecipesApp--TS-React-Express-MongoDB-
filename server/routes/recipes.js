@@ -17,6 +17,4 @@ router.patch("/rate/:id", isAuthenticated, RecipeController.rate);
 router.delete("/:id", isAuthenticated, RecipeController.delete);
 router.delete("/favorites/:id", isAuthenticated, RecipeController.deleteFavorite);
 
-// router.post("/review", isAuthenticated, RecipeController.addReview);
-
 module.exports = router;
