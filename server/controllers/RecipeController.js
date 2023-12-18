@@ -293,6 +293,7 @@ class RecipeController {
     static async delete(req, res) {
         try {
             await RecipeModel.deleteOne({ _id: req.params.id });
+            await ReviewModel.deleteMany({ recipe: req.params.id });
 
             res.json({ message: "Recipe is deleted" });
         } catch (err) {
