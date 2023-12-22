@@ -14,7 +14,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("static", express.static("public"));
+app.use("/static", express.static("public"));
 app.use(fileUpload());
 
 app.use("/api/auth", authRoutes);
