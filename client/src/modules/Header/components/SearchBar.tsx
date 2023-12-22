@@ -7,7 +7,7 @@ import SearchIcon from "../../../assets/icons/search.svg";
 const SearchBar = () => {
   const [search, setSearch] = useState<string>("");
 
-  const [getSearchedRecipes, { data, isFetching }] = useLazyGetSearchedQuery();
+  const [getSearchedRecipes, { data }] = useLazyGetSearchedQuery();
 
   useEffect(() => {
     const timer = setTimeout(() => getSearchedRecipes(search), 500);

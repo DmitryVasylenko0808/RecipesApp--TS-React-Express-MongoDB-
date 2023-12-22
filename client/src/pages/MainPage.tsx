@@ -1,7 +1,8 @@
 import React from "react";
+import { MainRecipes } from "../modules/MainRecipes";
 
 const MainPage = () => {
-  return <div>MainPage</div>;
+  return <MainRecipes />;
 };
 
 export default MainPage;
