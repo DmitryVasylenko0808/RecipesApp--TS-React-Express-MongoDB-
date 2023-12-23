@@ -6,7 +6,7 @@ export type Recipe = {
     kind: Kind,
     date: Date | string,
     image?: string,
-    rating: {
+    ratings: {
         "1": string[],
         "2": string[],
         "3": string[],

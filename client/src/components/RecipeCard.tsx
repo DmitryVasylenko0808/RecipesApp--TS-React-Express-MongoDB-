@@ -3,6 +3,7 @@ import { BASE_API_URL_RECIPE_IMAGES } from "../constants/api";
 import { Link } from "react-router-dom";
 
 import FavoriteIcon from "../assets/icons/favorite.svg";
+import Rating from "./Rating";
 
 type Kind = {
   _id: string;
@@ -15,7 +16,7 @@ type Recipe = {
   kind: Kind;
   date: Date | string;
   image?: string;
-  rating: {
+  ratings: {
     "1": string[];
     "2": string[];
     "3": string[];
@@ -30,7 +31,7 @@ type RecipeCardProps = {
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   return (
-    <div className="relative w-[380px] h-[380px] pb-3 bg-white border-2 duration-300 hover:shadow-2xl">
+    <div className="relative w-[380px] h-[400px] pb-3 bg-white border-2 duration-300 hover:shadow-2xl">
       <Link to={`/${recipe._id}`}>
         <img
           src={`${BASE_API_URL_RECIPE_IMAGES}/${recipe.image}`}
@@ -42,9 +43,10 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         <div className="mb-1 text-sm text-gray-400 font-bold">
           {recipe.kind.title.toUpperCase()}
         </div>
-        <Link to={`/${recipe._id}`}>
+        <Link to={`/${recipe._id}`} className="mb-2 inline-block">
           <h3 className="inline text-xl font-bold">{recipe.title}</h3>
         </Link>
+        <Rating rating={recipe.ratings} />
       </div>
       <button
         className="absolute top-4 right-4 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-red"

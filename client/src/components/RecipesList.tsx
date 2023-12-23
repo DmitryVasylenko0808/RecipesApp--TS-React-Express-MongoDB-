@@ -18,7 +18,7 @@ const RecipesList: React.FC<RecipesListProps> = ({
       {title && (
         <h2 className="mb-7 text-2xl font-bold text-center">{title}</h2>
       )}
-      <div className="flex justify-end">{children}</div>
+      {children && <div className="mb-7 flex justify-end">{children}</div>}
       <div className="flex flex-wrap gap-x-[82px] gap-y-8">
         {recipes.map((r) => (
           <RecipeCard recipe={r} key={r._id} />

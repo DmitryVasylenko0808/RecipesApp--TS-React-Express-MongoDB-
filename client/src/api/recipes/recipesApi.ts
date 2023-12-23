@@ -20,7 +20,8 @@ export const recipesApi = createApi({
             query: () => "/kinds"
         }),
         getRecipes: builder.query<GetRecipesDTO, GetRecipesParams>({
-            query: ({ page, sortDate, kind }) => `/?page=${page}&sortDate=${sortDate}&kind=${kind}`
+            query: ({ page, sortDate, kind }) => `/?page=${page}&sortDate=${sortDate}&kind=${kind}`,
+            providesTags: ["Recipes"]
         }),
         getSearched: builder.query<GetSearchedRecipesDTO, string>({
             query: searchValue => `/search/${searchValue}`,
@@ -30,4 +31,4 @@ export const recipesApi = createApi({
     tagTypes: ["Recipes"]
 });
 
-export const { useGetKindsQuery, useGetRecipesQuery, useLazyGetSearchedQuery } = recipesApi;
+export const { useGetKindsQuery, useLazyGetKindsQuery, useGetRecipesQuery, useLazyGetRecipesQuery, useLazyGetSearchedQuery } = recipesApi;
