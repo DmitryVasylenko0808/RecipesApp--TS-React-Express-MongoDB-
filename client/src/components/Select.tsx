@@ -35,7 +35,7 @@ const Select: React.FC<SelectProps> = ({ options, onSelect }) => {
         />
       </div>
       {isOpen && (
-        <div className="absolute top-full z-10 w-full shadow-xl bg-white rounded-lg cursor-pointer text-gray-500">
+        <div className="absolute top-[52px] z-10 w-full shadow-xl bg-white rounded-lg cursor-pointer text-gray-500">
           {options.map((o) => (
             <div
               className={`px-3 py-3 hover:bg-red hover:text-white duration-300 

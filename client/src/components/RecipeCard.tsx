@@ -2,8 +2,8 @@ import React from "react";
 import { BASE_API_URL_RECIPE_IMAGES } from "../constants/api";
 import { Link } from "react-router-dom";
 
-import FavoriteIcon from "../assets/icons/favorite.svg";
 import Rating from "./Rating";
+import FavoriteButton from "./FavoriteButton";
 
 type Kind = {
   _id: string;
@@ -48,12 +48,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         </Link>
         <Rating rating={recipe.ratings} />
       </div>
-      <button
-        className="absolute top-4 right-4 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-red"
-        aria-label="favorite"
-      >
-        <FavoriteIcon width={30} height={30} color="white" />
-      </button>
+      <div className="absolute top-4 right-4">
+        <FavoriteButton />
+      </div>
     </div>
   );
 };

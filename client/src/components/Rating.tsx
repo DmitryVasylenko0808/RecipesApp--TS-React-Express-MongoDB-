@@ -14,9 +14,10 @@ type Rating = {
 
 type RatingProps = {
   rating: Rating;
+  rateNumber?: boolean;
 };
 
-const Rating: React.FC<RatingProps> = ({ rating }) => {
+const Rating: React.FC<RatingProps> = ({ rating, rateNumber }) => {
   const { countRate, rate } = useRate(rating);
 
   return (
@@ -30,7 +31,10 @@ const Rating: React.FC<RatingProps> = ({ rating }) => {
           )
         )}
       </div>
-      {rating && <span>{countRate} ratings</span>}
+      <div className="flex items-center gap-x-5">
+        {rateNumber && <span>{rate}</span>}
+        {rating && <span>{countRate} ratings</span>}
+      </div>
     </div>
   );
 };

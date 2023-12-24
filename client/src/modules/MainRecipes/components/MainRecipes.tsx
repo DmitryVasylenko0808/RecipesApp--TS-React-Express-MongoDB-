@@ -102,15 +102,16 @@ const MainRecipes = () => {
         ))}
       </KindsRecipe>
       <Container>
-        {fetchedRecipes.isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <RecipesList recipes={recipes || []} title="Recipes List">
-            <Select
-              options={sortDateOptions}
-              onSelect={handleSelectSortDateOption}
-            />
-          </RecipesList>
+        <div className="py-9 flex justify-between">
+          <h2 className="text-2xl font-bold">Recipes List</h2>
+          <Select
+            options={sortDateOptions}
+            onSelect={handleSelectSortDateOption}
+          />
+        </div>
+        <RecipesList recipes={recipes || []}></RecipesList>
+        {fetchedRecipes.isFetching && (
+          <div className="py-7 text-center">Loading...</div>
         )}
       </Container>
     </>

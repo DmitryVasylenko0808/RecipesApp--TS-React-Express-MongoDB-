@@ -1,7 +1,12 @@
 import React from "react";
+import { RecipeDetails } from "../modules/RecipeDetails";
 
 const RecipeDetailsPage = () => {
-  return <div>RecipeDetailsPage</div>;
+  return (
+    <div>
+      <RecipeDetails />
+    </div>
+  );
 };
 
 export default RecipeDetailsPage;
