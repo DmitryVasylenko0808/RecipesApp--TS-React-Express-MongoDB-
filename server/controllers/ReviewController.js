@@ -6,15 +6,16 @@ class ReviewController {
         try {
             const offset = 10;
 
-            let { page } = req.query;
+            let { page, sortDate } = req.query;
             page = parseFloat(page) - 1;
+            sortDate = parseFloat(sortDate);
 
             const reviews = await ReviewModel
                 .find({ recipe: req.params.recipeId }, "-recipe")
                 .skip(page * offset)
                 .limit(offset)
                 .populate("author", "login avatar_file")
-                .sort({ createdAt: -1 });
+                .sort({ createdAt: sortDate });
 
             res.json(reviews);
         } catch (err) {
