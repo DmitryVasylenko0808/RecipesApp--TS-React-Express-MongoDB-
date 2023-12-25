@@ -15,6 +15,7 @@ class AuthController {
             const hash = await bcrypt.hash(req.body.password, 5);
 
             let avatarFileName;
+            console.log(req.files);
             if (req.files?.avatar_file) {
                 const file = req.files.avatar_file;
                 avatarFileName = `${uuidv4()}-${file.name.replaceAll(" ", "-")}`;

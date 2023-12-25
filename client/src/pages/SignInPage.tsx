@@ -1,5 +1,5 @@
 import React from "react";
-import { SignInForm } from "../modules/SignInForm.tsx";
+import { SignInForm } from "../modules/SignInForm";
 
 const SignInPage = () => {
   return (

@@ -14,11 +14,13 @@ import SignUpPage from "./pages/SignUpPage";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
 import { useAppSelect } from "./redux/hooks";
+import { useAuth } from "./hooks/useAuth";
 
 const App = () => {
-  const state = useAppSelect((state) => state.auth);
+  const { isAuthenticate, user } = useAuth();
 
-  console.log(state);
+  console.log(isAuthenticate);
+  console.log(user);
 
   return (
     <Routes>
