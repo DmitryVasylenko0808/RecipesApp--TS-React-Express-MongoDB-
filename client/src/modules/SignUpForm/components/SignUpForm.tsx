@@ -2,14 +2,9 @@ import React, { useState } from "react";
 import Paper from "../../../components/Paper";
 import Button from "../../../components/Button";
 import TextField from "../../../components/TextField";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {
-  useSignInMutation,
-  useSignUpMutation,
-} from "../../../api/auth/authApi";
-import { useAppDispatch } from "../../../redux/hooks";
-import { setUserInfo } from "../../../redux/slices/authSlice";
+import { useSignUpMutation } from "../../../api/auth/authApi";
 import FileSelect from "../../../components/FileSelect";
 import SnackBar from "../../../components/SnackBar";
 
@@ -32,7 +27,6 @@ const SignUpForm = () => {
 
   const onSubmit = (data: SignUpFormFields) => {
     const { login, password, avatar_file } = data;
-    console.log(avatar_file[0]);
 
     signUp({ login, password, avatar_file: avatar_file[0] })
       .unwrap()

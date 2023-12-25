@@ -3,11 +3,26 @@ import { Link } from "react-router-dom";
 import UserIcon from "../../../assets/icons/user.svg";
 import EditIcon from "../../../assets/icons/edit.svg";
 import LogOutIcon from "../../../assets/icons/logout.svg";
+import { useAppDispatch } from "../../../redux/hooks";
+import { logOut } from "../../../redux/slices/authSlice";
 
-const UserMenu = () => {
+type User = {
+  _id: string;
+  login: string;
+  token: string;
+};
+
+type UserMenuProps = {
+  user: User;
+};
+
+const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
+  const dispatch = useAppDispatch();
+
   const [isOpen, setisOpen] = useState<boolean>(false);
 
   const handleToggleMenu = () => setisOpen(!isOpen);
+  const handleLogOut = () => dispatch(logOut());
 
   return (
     <div className="relative">
@@ -17,7 +32,7 @@ const UserMenu = () => {
         onClick={handleToggleMenu}
       >
         <UserIcon width={30} height={30} />
-        UserLogin
+        {user.login}
       </button>
       {isOpen && (
         <div className="absolute top-full z-10 min-w-full flex flex-col bg-white text-lg font-medium shadow-xl">
@@ -37,7 +52,7 @@ const UserMenu = () => {
           </Link>
           <button
             className="p-2 flex items-center gap-x-2 text-gray-400 hover:bg-gray-100"
-            onClick={() => {}}
+            onClick={handleLogOut}
           >
             <LogOutIcon width={20} height={20} />
             Log Out

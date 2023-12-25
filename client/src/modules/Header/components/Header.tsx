@@ -6,8 +6,14 @@ import ThemeButton from "./ThemeButton";
 import UserMenu from "./UserMenu";
 import LogInButton from "./LogInButton";
 import Container from "../../../components/Container";
+import { useAuth } from "../../../hooks/useAuth";
 
 const Header = () => {
+  const { isAuthenticate, user } = useAuth();
+
+  console.log(isAuthenticate);
+  console.log(user);
+
   return (
     <header className="bg-red">
       <Container>
@@ -16,8 +22,7 @@ const Header = () => {
           <SearchBar />
           <div className="flex">
             <ThemeButton />
-            {/* <UserMenu /> */}
-            <LogInButton />
+            {isAuthenticate ? <UserMenu user={user!} /> : <LogInButton />}
           </div>
         </div>
       </Container>
