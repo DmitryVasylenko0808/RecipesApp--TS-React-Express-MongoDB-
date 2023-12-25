@@ -26,7 +26,10 @@ const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
       <div className="mb-4 flex items-center gap-x-4 text-sm text-gray-500">
         <span className="">
           Recipe by{" "}
-          <Link to={"/"} className="text-[18px] font-bold">
+          <Link
+            to={`/profile/${recipe?.author._id}/recipes`}
+            className="text-[18px] font-bold"
+          >
             {recipe?.author.login}
           </Link>
         </span>

@@ -37,14 +37,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       {isOpen && (
         <div className="absolute top-full z-10 min-w-full flex flex-col bg-white text-lg font-medium shadow-xl">
           <Link
-            to={`/profile/${1}`}
+            to={`/profile/${user._id}/recipes`}
             className="p-2 flex items-center gap-x-2 text-gray-400 hover:bg-gray-100"
           >
             <UserIcon width={20} height={20} />
             My Profile
           </Link>
           <Link
-            to={`/profile/${1}/edit`}
+            to={`/profile/${user._id}/edit`}
             className="p-2 flex items-center gap-x-2 text-gray-400 hover:bg-gray-100"
           >
             <EditIcon width={20} height={20} />
