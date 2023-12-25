@@ -13,8 +13,13 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
+import { useAppSelect } from "./redux/hooks";
 
 const App = () => {
+  const state = useAppSelect((state) => state.auth);
+
+  console.log(state);
+
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>

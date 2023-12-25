@@ -2,14 +2,18 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { recipesApi } from "../api/recipes/recipesApi";
 import { reviewsApi } from "../api/reviews/reviewsApi";
+import { authApi } from "../api/auth/authApi";
+import authSlice from "./slices/authSlice";
 
 export const store = configureStore({
     reducer: {
         [recipesApi.reducerPath]: recipesApi.reducer,
-        [reviewsApi.reducerPath]: reviewsApi.reducer
+        [reviewsApi.reducerPath]: reviewsApi.reducer,
+        [authApi.reducerPath]: authApi.reducer,
+        auth: authSlice
     },
     middleware: (getDefaultMiddeware) => getDefaultMiddeware()
-        .concat(recipesApi.middleware, reviewsApi.middleware)
+        .concat(recipesApi.middleware, reviewsApi.middleware, authApi.middleware)
 });
 
 setupListeners(store.dispatch);

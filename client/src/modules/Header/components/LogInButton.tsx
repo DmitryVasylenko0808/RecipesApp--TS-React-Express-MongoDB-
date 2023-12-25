@@ -3,7 +3,7 @@ import React from "react";
 import KeyIcon from "../../../assets/icons/key.svg";
 import { Link } from "react-router-dom";
 
-const LogOutButton = () => {
+const LogInButton = () => {
   return (
     <Link
       to="/auth/sign-in"
@@ -16,4 +16,4 @@ const LogOutButton = () => {
   );
 };
 
-export default LogOutButton;
+export default LogInButton;

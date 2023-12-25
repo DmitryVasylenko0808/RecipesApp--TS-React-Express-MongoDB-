@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        base: "18px"
+      },
       colors: {
         red: "#d14d72",
         peach: "#ffabab",

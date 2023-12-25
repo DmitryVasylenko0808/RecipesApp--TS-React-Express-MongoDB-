@@ -4,7 +4,7 @@ import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import ThemeButton from "./ThemeButton";
 import UserMenu from "./UserMenu";
-import LogOutButton from "./LogOutButton";
+import LogInButton from "./LogInButton";
 import Container from "../../../components/Container";
 
 const Header = () => {
@@ -16,8 +16,8 @@ const Header = () => {
           <SearchBar />
           <div className="flex">
             <ThemeButton />
-            <UserMenu />
-            {/* <LogOutButton /> */}
+            {/* <UserMenu /> */}
+            <LogInButton />
           </div>
         </div>
       </Container>
