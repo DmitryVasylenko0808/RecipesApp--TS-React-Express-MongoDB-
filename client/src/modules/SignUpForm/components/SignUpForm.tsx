@@ -11,6 +11,7 @@ import {
 import { useAppDispatch } from "../../../redux/hooks";
 import { setUserInfo } from "../../../redux/slices/authSlice";
 import FileSelect from "../../../components/FileSelect";
+import SnackBar from "../../../components/SnackBar";
 
 type SignUpFormFields = {
   login: string;
@@ -36,7 +37,7 @@ const SignUpForm = () => {
     signUp({ login, password, avatar_file: avatar_file[0] })
       .unwrap()
       .then((res) => console.log(res.message))
-      .catch((err) => alert(err.data.message));
+      .catch((err) => setRequestError(err.data.message));
   };
 
   const isDisabledButton = isSubmitting || isLoading;
@@ -93,6 +94,7 @@ const SignUpForm = () => {
           </Button>
         </div>
       </form>
+      {requestError && <SnackBar>{requestError}</SnackBar>}
     </Paper>
   );
 };

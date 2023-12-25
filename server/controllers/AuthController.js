@@ -9,7 +9,7 @@ class AuthController {
         try {
             const user = await UserModel.findOne({ login: req.body.login });
             if (user) {
-                return res.status(400).json({ message: "This Login is already exists" });
+                return res.status(400).json({ message: "This login is already exists" });
             }
 
             const hash = await bcrypt.hash(req.body.password, 5);
