@@ -4,8 +4,24 @@ import { GetSearchedRecipesDTO } from "./dto/get-searched-recipes";
 import { GetKindsRecipesDTO } from "./dto/get-kinds-recipes";
 import { GetRecipesDTO } from "./dto/get-recipes";
 import { GetRecipeDetailsDTO } from "./dto/get-recipe-details";
+import { GetUserRecipesDTO } from "./dto/get-user-recipes";
+import { GetFavoriteRecipesDTO } from "./dto/get-favorite-recipes";
 
 type GetRecipesParams = {
+    page: number,
+    sortDate: string,
+    kind?: string
+}
+
+type GetUserRecipesParams = {
+    userId?: string,
+    page: number,
+    sortDate: string,
+    kind?: string
+}
+
+type GetFavoriteRecipesParams = {
+    userId?: string,
     page: number,
     sortDate: string,
     kind?: string
@@ -31,6 +47,14 @@ export const recipesApi = createApi({
         getSearched: builder.query<GetSearchedRecipesDTO, string>({
             query: searchValue => `/search/${searchValue}`,
             providesTags: ["Recipes"]
+        }),
+        getUserRecipes: builder.query<GetUserRecipesDTO, GetUserRecipesParams>({
+            query: ({ userId, page, sortDate }) => `/user/${userId}?page=${page}&sortDate=${sortDate}`,
+            providesTags: ["Recipes"]
+        }),
+        getFavoriteRecipes: builder.query<GetFavoriteRecipesDTO, GetFavoriteRecipesParams>({
+            query: ({ userId, page, sortDate }) => `/user/${userId}?page=${page}&sortDate=${sortDate}`,
+            providesTags: ["Recipes"]
         })
     }),
     tagTypes: ["Recipes"]
@@ -41,5 +65,7 @@ export const {
     useLazyGetKindsQuery, 
     useGetRecipeDetailsQuery, 
     useLazyGetRecipesQuery, 
-    useLazyGetSearchedQuery 
+    useLazyGetSearchedQuery ,
+    useLazyGetUserRecipesQuery,
+    useLazyGetFavoriteRecipesQuery
 } = recipesApi;

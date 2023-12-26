@@ -1,7 +1,12 @@
 import React from "react";
+import { UserRecipes } from "../modules/UserRecipes";
 
 const ProfileRecipesPage = () => {
-  return <div>ProfileRecipesPage</div>;
+  return (
+    <div>
+      <UserRecipes />
+    </div>
+  );
 };
 
 export default ProfileRecipesPage;
