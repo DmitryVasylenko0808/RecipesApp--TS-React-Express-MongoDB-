@@ -5,6 +5,7 @@ import EditIcon from "../../../assets/icons/edit.svg";
 import LogOutIcon from "../../../assets/icons/logout.svg";
 import { useAppDispatch } from "../../../redux/hooks";
 import { logOut } from "../../../redux/slices/authSlice";
+import { useAuth } from "../../../hooks/useAuth";
 
 type User = {
   _id: string;
@@ -18,11 +19,14 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const dispatch = useAppDispatch();
-
+  const { removeToken } = useAuth();
   const [isOpen, setisOpen] = useState<boolean>(false);
 
   const handleToggleMenu = () => setisOpen(!isOpen);
-  const handleLogOut = () => dispatch(logOut());
+  const handleLogOut = () => {
+    removeToken();
+    dispatch(logOut());
+  };
 
   return (
     <div className="relative">

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { BASE_API_URL_AUTH } from "../../constants/api";
 import { SignInInDTO } from "./dto/sign-in.in";
 import { SignUpInDTO } from "./dto/sign-up.in";
+import { GetMeDTO } from "./dto/get-me";
 
 type SignInParams = {
     login: string,
@@ -17,9 +18,15 @@ type SignUpParams = {
 export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: BASE_API_URL_AUTH
+        baseUrl: BASE_API_URL_AUTH,
+        prepareHeaders: (headers) => {
+            headers.set("authorization", `Bearer ${localStorage.getItem("token")}`)
+        }
     }),
     endpoints: builder => ({
+        getMe: builder.query<GetMeDTO, void>({
+            query: () => "/me"
+        }),
         signIn: builder.mutation<SignInInDTO, SignInParams>({
             query: body => ({
                 url: "/signin",
@@ -47,4 +54,4 @@ export const authApi = createApi({
     })
 });
 
-export const { useSignInMutation, useSignUpMutation } = authApi;
+export const { useLazyGetMeQuery, useSignInMutation, useSignUpMutation } = authApi;

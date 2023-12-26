@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useSignInMutation } from "../../../api/auth/authApi";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setUserInfo } from "../../../redux/slices/authSlice";
+import { useAuth } from "../../../hooks/useAuth";
 
 type SignInFormFields = {
   login: string;
@@ -16,6 +17,7 @@ type SignInFormFields = {
 const SignInForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { setToken } = useAuth();
   const [requestError, setRequestError] = useState<string>("");
   const {
     register,
@@ -30,6 +32,7 @@ const SignInForm = () => {
       .unwrap()
       .then((res) => {
         dispatch(setUserInfo(res));
+        setToken(res.token);
         navigate("/");
       })
       .catch((err) => setRequestError(err.data.message));

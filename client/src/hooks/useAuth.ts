@@ -5,5 +5,15 @@ export const useAuth = () => {
 
     const isAuthenticate = user ? true : false;
 
-    return { isAuthenticate, user }
+    const token = localStorage.getItem("token");
+    const setToken = (token: string) => localStorage.setItem("token", token);
+    const removeToken = () => localStorage.removeItem("token");
+
+    return { 
+        isAuthenticate, 
+        user,
+        token,
+        setToken,
+        removeToken 
+    };
 }
