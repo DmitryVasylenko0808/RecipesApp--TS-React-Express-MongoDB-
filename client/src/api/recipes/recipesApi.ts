@@ -53,7 +53,7 @@ export const recipesApi = createApi({
             providesTags: ["Recipes"]
         }),
         getFavoriteRecipes: builder.query<GetFavoriteRecipesDTO, GetFavoriteRecipesParams>({
-            query: ({ userId, page, sortDate }) => `/user/${userId}?page=${page}&sortDate=${sortDate}`,
+            query: ({ userId, page, sortDate }) => `/favorites/${userId}?page=${page}&sortDate=${sortDate}`,
             providesTags: ["Recipes"]
         })
     }),

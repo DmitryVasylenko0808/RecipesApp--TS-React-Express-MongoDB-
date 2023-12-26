@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useLazyGetUserRecipesQuery } from "../../../api/recipes/recipesApi";
+import { useLazyGetFavoriteRecipesQuery } from "../../../api/recipes/recipesApi";
+import { useParams } from "react-router";
 import { GetUserRecipesDTO } from "../../../api/recipes/dto/get-user-recipes";
 import { Option } from "../../../types";
-import { useParams } from "react-router";
 import RecipesList from "../../../components/RecipesList";
 import Select from "../../../components/Select";
 
-const UserRecipes = () => {
+const FavoriteRecipes = () => {
   const { userId } = useParams();
 
   const [page, setPage] = useState<number>(1);
   const [recipes, setRecipes] = useState<GetUserRecipesDTO>([]);
   const [sortDateOptions, setSortDateOptions] = useState<Option[]>([]);
 
-  const [fetchUserRecipes, fetchedUserRecipesData] =
-    useLazyGetUserRecipesQuery();
+  const [fetchFavoriteRecipes, fetchedFavoriteRecipesData] =
+    useLazyGetFavoriteRecipesQuery();
 
   useEffect(() => {
     const options = [
@@ -24,36 +24,36 @@ const UserRecipes = () => {
 
     setSortDateOptions(options);
 
-    fetchUserRecipes({ userId, page, sortDate: options[0].value });
+    fetchFavoriteRecipes({ userId, page, sortDate: options[0].value });
   }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [fetchedUserRecipesData.isFetching]);
+  }, [fetchedFavoriteRecipesData.isFetching]);
 
   useEffect(() => {
-    if (fetchedUserRecipesData.data) {
+    if (fetchedFavoriteRecipesData.data) {
       if (page === 1) {
-        setRecipes([...fetchedUserRecipesData.data]);
+        setRecipes([...fetchedFavoriteRecipesData.data]);
       } else {
-        setRecipes([...recipes, ...fetchedUserRecipesData.data]);
+        setRecipes([...recipes, ...fetchedFavoriteRecipesData.data]);
       }
     }
-  }, [fetchedUserRecipesData.data]);
+  }, [fetchedFavoriteRecipesData.data]);
 
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
         document.documentElement.offsetHeight ||
-      fetchedUserRecipesData.isFetching
+      fetchedFavoriteRecipesData.isFetching
     ) {
       return;
     }
     setPage(page + 1);
 
     const currentOption = sortDateOptions.find((o) => o.selected === true);
-    fetchUserRecipes({
+    fetchFavoriteRecipes({
       userId,
       page: page + 1,
       sortDate: currentOption?.value || "-1",
@@ -69,7 +69,7 @@ const UserRecipes = () => {
     });
     setSortDateOptions(updatedOptions);
 
-    fetchUserRecipes({ userId, page: 1, sortDate: val });
+    fetchFavoriteRecipes({ userId, page: 1, sortDate: val });
   };
 
   return (
@@ -81,11 +81,11 @@ const UserRecipes = () => {
         />
       </div>
       <RecipesList recipes={recipes || []}></RecipesList>
-      {fetchedUserRecipesData.isFetching && (
+      {fetchedFavoriteRecipesData.isFetching && (
         <div className="py-7 text-center">Loading...</div>
       )}
     </>
   );
 };
 
-export default UserRecipes;
+export default FavoriteRecipes;

@@ -13,7 +13,7 @@ const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ breadCrumbs }) => {
     <div className="mb-3 flex gap-x-2">
       {breadCrumbs.map((bc, index) => {
         return (
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-2" key={index}>
             {index !== 0 && (
               <ChevronIcon
                 width={20}
