@@ -1,19 +1,12 @@
 import React from "react";
+import { RatingData } from "../types";
 
 import RateIcon from "../assets/icons/rate.svg";
 import RateFilledIcon from "../assets/icons/rate_filled.svg";
 import { useRate } from "../hooks/useRate";
 
-type Rating = {
-  "1": string[];
-  "2": string[];
-  "3": string[];
-  "4": string[];
-  "5": string[];
-};
-
 type RatingProps = {
-  rating: Rating;
+  rating: RatingData;
   rateNumber?: boolean;
 };
 

@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   if (variant === "primary") {
     className += " bg-red border-2 border-red text-white";
   } else if (variant === "secondary") {
-    className += " border-2 border-red text-red hover:bg-pink-light";
+    className += " border-2 border-peach bg-peach text-white";
   } else if (variant === "outline") {
     className += " text-red hover:text-red/20";
   }

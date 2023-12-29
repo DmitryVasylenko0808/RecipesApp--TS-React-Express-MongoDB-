@@ -15,6 +15,7 @@ import RecipeIngredients from "./RecipeIngredients";
 import RecipeSteps from "./RecipeSteps";
 import Box from "./Box";
 import RecipeFact from "./RecipeFact";
+import RateAnalytics from "./RateAnalytics";
 
 const RecipeDetails = () => {
   const { recipeId } = useParams();
@@ -65,6 +66,7 @@ const RecipeDetails = () => {
           <RecipeFact label="Fats" value={`${data?.nutritions.fat}`} />
           <RecipeFact label="Proteins" value={`${data?.nutritions.protein}`} />
         </Box>
+        {data?.ratings && <RateAnalytics rating={data.ratings} />}
       </Container>
     </div>
   );

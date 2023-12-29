@@ -1,3 +1,5 @@
+import { RateAnalytics } from "../types";
+
 type Rating = {
     "1": string[];
     "2": string[];
@@ -9,6 +11,7 @@ type Rating = {
 export const useRate = (rating: Rating) => {
     let countRate = 0;
     let rate = 0;
+    let analytics: RateAnalytics[];
 
     const calculateCountRate = (rating: Rating) => {
         let count = 0;
@@ -34,8 +37,21 @@ export const useRate = (rating: Rating) => {
         return rate;
       };
 
+    const anazyleRate = (rating: Rating, countRate: number): RateAnalytics[] => {
+      const result = Object.entries(rating)
+        .reverse()
+        .map(([k, v]) => ({
+          name: k,
+          count: v.length,
+          percentage: v.length / countRate * 100
+      }));
+
+      return result;
+    }
+
     countRate = calculateCountRate(rating);
     rate = calculateRating(rating, countRate);
+    analytics = anazyleRate(rating, countRate);
 
-    return { countRate, rate };
+    return { countRate, rate, analytics };
 }
