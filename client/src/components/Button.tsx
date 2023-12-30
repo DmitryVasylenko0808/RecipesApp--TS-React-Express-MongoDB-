@@ -5,7 +5,7 @@ type ButtonProps = {
   type?: "button" | "submit";
   disabled?: boolean;
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: React.ComponentProps<"button">["onClick"];
 };
 
 const Button: React.FC<ButtonProps> = ({

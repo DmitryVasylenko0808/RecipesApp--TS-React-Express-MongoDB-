@@ -4,12 +4,13 @@ import PictureIcon from "../assets/icons/picture.svg";
 
 type FileSelectProps = {
   name: React.ComponentProps<"input">["name"];
+  variant: "avatar" | "recipe";
   label?: string;
   onBlur: React.ComponentProps<"input">["onBlur"];
 };
 
 const FileSelect = forwardRef<HTMLInputElement, FileSelectProps>(
-  ({ label, ...inputProps }, ref) => {
+  ({ label, variant, ...inputProps }, ref) => {
     const [preview, setPreview] = useState<string>("");
 
     const handleShowPreview = (
@@ -28,6 +29,14 @@ const FileSelect = forwardRef<HTMLInputElement, FileSelectProps>(
       }
     };
 
+    let containerClassName =
+      "mb-3 border-2 border-dashed border-red flex justify-center items-center text-red";
+    if (variant === "avatar") {
+      containerClassName += " w-[200px] h-[200px] rounded-full";
+    } else if (variant === "recipe") {
+      containerClassName += " w-full h-[200px] rounded-lg";
+    }
+
     return (
       <label className="py-2 flex flex-col items-center cursor-pointer">
         {preview ? (
@@ -39,7 +48,7 @@ const FileSelect = forwardRef<HTMLInputElement, FileSelectProps>(
             className="mb-3 rounded-full"
           />
         ) : (
-          <div className="w-[200px] h-[200px] mb-3 border-2 border-dashed border-red rounded-full flex justify-center items-center text-red">
+          <div className={containerClassName}>
             <PictureIcon width={50} height={50} fill="#d14d72" />
           </div>
         )}
@@ -50,7 +59,7 @@ const FileSelect = forwardRef<HTMLInputElement, FileSelectProps>(
           ref={ref}
           onChange={(e) => handleShowPreview(e, e.target.files)}
         />
-        <span className="text-gray-500">Select image for avatar</span>
+        <span className="text-gray-500">Select image for {variant}</span>
       </label>
     );
   }

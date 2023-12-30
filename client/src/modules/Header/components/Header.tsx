@@ -21,6 +21,7 @@ const Header = () => {
           <Logo />
           <SearchBar />
           <div className="flex">
+            <Link to="/create">Create recipe</Link>
             <ThemeButton />
             {isAuthenticate ? <UserMenu user={user!} /> : <LogInButton />}
           </div>

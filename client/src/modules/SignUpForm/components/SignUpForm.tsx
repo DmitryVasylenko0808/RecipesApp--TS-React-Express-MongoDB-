@@ -74,7 +74,7 @@ const SignUpForm = () => {
           error={errors.password_confirm?.message}
         />
         <div className="flex justify-center">
-          <FileSelect {...register("avatar_file")} />
+          <FileSelect variant="avatar" {...register("avatar_file")} />
         </div>
         <span className="py-2 inline-flex gap-x-2 text-gray-500">
           Already have an account?

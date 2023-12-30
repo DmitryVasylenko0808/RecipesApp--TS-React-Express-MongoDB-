@@ -5,10 +5,11 @@ import ChevronDownIcon from "../assets/icons/chevron_down.svg";
 
 type SelectProps = {
   options: Option[];
+  label?: string;
   onSelect: (val: string) => void;
 };
 
-const Select: React.FC<SelectProps> = ({ options, onSelect }) => {
+const Select: React.FC<SelectProps> = ({ options, label, onSelect }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const selectedOption = options.find((o) => o.selected === true);
@@ -23,15 +24,16 @@ const Select: React.FC<SelectProps> = ({ options, onSelect }) => {
 
   return (
     <div className="relative">
+      {label && <label className="mb-2 block text-gray-500">{label}</label>}
       <div
-        className="min-w-[170px] px-3 py-2 flex justify-between items-center text-gray-500 border-2 border-pink-default rounded-lg cursor-pointer"
+        className="min-w-[170px] w-full px-3 py-2 flex justify-between items-center text-gray-500 border-2 text-xl rounded-lg cursor-pointer"
         onClick={handleToggle}
       >
         {selectedOption?.name}
         <ChevronDownIcon
           width={20}
           height={20}
-          className={`text-red duration-150 ${chevronClassName}`}
+          className={`text-gray-500 duration-150 ${chevronClassName}`}
         />
       </div>
       {isOpen && (

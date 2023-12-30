@@ -42,8 +42,8 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<MainPage />} />
         <Route path=":recipeId" element={<RecipeDetailsPage />} />
+        <Route path="create" element={<CreateRecipePage />} />
         <Route element={<RequireAuth />}>
-          <Route path="create" element={<CreateRecipePage />} />
           <Route path=":recipeId/edit" element={<EditRecipePage />} />
         </Route>
         <Route path="profile/:userId" element={<ProfileLayout />}>
