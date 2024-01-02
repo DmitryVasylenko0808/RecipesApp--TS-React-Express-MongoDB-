@@ -8,6 +8,7 @@ import { GetUserRecipesDTO } from "./dto/get-user-recipes";
 import { GetFavoriteRecipesDTO } from "./dto/get-favorite-recipes";
 import { AddRecipeInDTO } from "./dto/add-recipe.in";
 import { DeleteRecipeInDTO } from "./dto/delete-recipe.in";
+import { EditRecipeDTO } from "./dto/edit-recipe";
 
 type GetRecipesParams = {
     page: number,
@@ -43,8 +44,26 @@ type AddRecipeParams = {
   fat: number;
   protein: number;
   date: Date | string | number;
-  image?: FileList
-}
+  image?: FileList;
+};
+
+type EditRecipeParams = { 
+    id?: string;
+    title: string;
+    description: string;
+    kind: string,
+    prep_time: number;
+    cook_time: number;
+    servings: number;
+    ingredients: string[];
+    directions: string[];
+    calories: number;
+    carbs: number;
+    fat: number;
+    protein: number;
+    date: Date | string | number;
+    image?: File; 
+};
 
 export const recipesApi = createApi({
     reducerPath: "recipesApi",
@@ -104,6 +123,32 @@ export const recipesApi = createApi({
             },
             invalidatesTags: ["Recipes"]
         }),
+        editRecipe: builder.mutation<EditRecipeDTO, EditRecipeParams>({
+            query: ({ id, ...patch }) => {
+                const formData = new FormData();
+                formData.append("title", patch.title);
+                formData.append("description", patch.description);
+                formData.append("kind", patch.kind);
+                formData.append("prep_time", patch.prep_time.toString());
+                formData.append("cook_time", patch.cook_time.toString());
+                formData.append("servings", patch.servings.toString());
+                formData.append("date", patch.date.toString());
+                formData.append("ingredients", JSON.stringify(patch.ingredients));
+                formData.append("directions", JSON.stringify(patch.directions));
+                formData.append("calories", patch.calories.toString());
+                formData.append("carbs", patch.carbs.toString());
+                formData.append("fat", patch.fat.toString());
+                formData.append("protein", patch.protein.toString());
+
+                return {
+                    url: `/${id}`,
+                    method: "PATCH",
+                    body: formData,
+                    formData: true
+                }
+            },
+            invalidatesTags: ["Recipes"]
+        }),
         deleteRecipe: builder.mutation<DeleteRecipeInDTO, string>({
             query: id => ({
                 url: `/${id}`,
@@ -124,5 +169,6 @@ export const {
     useLazyGetUserRecipesQuery,
     useLazyGetFavoriteRecipesQuery,
     useAddRecipeMutation,
+    useEditRecipeMutation,
     useDeleteRecipeMutation,
 } = recipesApi;

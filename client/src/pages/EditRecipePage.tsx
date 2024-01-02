@@ -1,7 +1,12 @@
 import React from "react";
+import { EditRecipeForm } from "../modules/EditRecipeForm";
 
 const EditRecipePage = () => {
-  return <div>EditRecipePage</div>;
+  return (
+    <div>
+      <EditRecipeForm />
+    </div>
+  );
 };
 
 export default EditRecipePage;

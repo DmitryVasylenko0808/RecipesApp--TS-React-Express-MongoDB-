@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { GetRecipeDetailsDTO } from "../../../api/recipes/dto/get-recipe-details";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Rating from "../../../components/Rating";
 import Button from "../../../components/Button";
 import DeleteRecipeModal from "./DeleteRecipeModal";
@@ -15,6 +15,7 @@ type RecipeDetalsInfoProps = {
 
 const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
   const { isAuthenticate, user } = useAuth();
+  const navigate = useNavigate();
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
@@ -25,6 +26,7 @@ const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
 
   const isUserRecipe = isAuthenticate && recipe?.author._id === user?._id;
 
+  const handleEdit = () => navigate(`/${recipe?._id}/edit`);
   const handleOpenModal = () => setIsOpenModal(true);
   const handleCloseModal = () => setIsOpenModal(false);
 
@@ -39,7 +41,7 @@ const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
         </div>
         {isUserRecipe && (
           <div className="flex gap-x-4">
-            <Button variant="primary">
+            <Button variant="primary" onClick={handleEdit}>
               <EditIcon width={20} height={20} />
               Edit
             </Button>

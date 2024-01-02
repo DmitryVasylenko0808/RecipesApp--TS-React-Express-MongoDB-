@@ -1,17 +1,30 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 
 import PictureIcon from "../assets/icons/picture.svg";
+import {
+  BASE_API_URL_AVATARS,
+  BASE_API_URL_RECIPE_IMAGES,
+} from "../constants/api";
 
 type FileSelectProps = {
   name: React.ComponentProps<"input">["name"];
   variant: "avatar" | "recipe";
+  defaultImage?: string;
   label?: string;
   onBlur: React.ComponentProps<"input">["onBlur"];
 };
 
 const FileSelect = forwardRef<HTMLInputElement, FileSelectProps>(
-  ({ label, variant, ...inputProps }, ref) => {
+  ({ label, defaultImage, variant, ...inputProps }, ref) => {
     const [preview, setPreview] = useState<string>("");
+
+    useEffect(() => {
+      if (variant === "recipe" && defaultImage) {
+        setPreview(`${BASE_API_URL_RECIPE_IMAGES}/${defaultImage}`);
+      } else if (variant === "avatar" && defaultImage) {
+        setPreview(`${BASE_API_URL_AVATARS}/${defaultImage}`);
+      }
+    }, []);
 
     const handleShowPreview = (
       e: React.ChangeEvent,
