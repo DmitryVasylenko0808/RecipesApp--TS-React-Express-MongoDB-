@@ -1,21 +1,28 @@
 import React from "react";
 import { useGetProfileQuery } from "../../../api/profiles/profilesApt";
-import { useLocation, useParams } from "react-router";
-import { BASE_API_URL_AVATARS } from "../../../constants/api";
-
-import nullAvatar from "../../../assets/images/nullavatar.jpg";
+import { useLocation, useNavigate, useParams } from "react-router";
 import ProfileTabs from "./ProfileTabs";
 import BreadCrumbs from "./BreadCrumbs";
+import Button from "../../../components/Button";
+
+import { BASE_API_URL_AVATARS } from "../../../constants/api";
+
 import { BreadCrumb } from "../types";
 
+import nullAvatar from "../../../assets/images/nullavatar.jpg";
+import EditIcon from "../../../assets/icons/edit.svg";
+import DeleteIcon from "../../../assets/icons/delete.svg";
+import { useAuth } from "../../../hooks/useAuth";
+
 const ProfileDetails = () => {
+  const { isAuthenticate, user } = useAuth();
   const { userId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { data, isLoading, isError } = useGetProfileQuery(userId);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error</div>;
+  const handleEditProfile = () => navigate(`/profile/${userId}/edit`);
 
   const imgSrc = data?.avatar_file ? data.avatar_file : nullAvatar;
 
@@ -35,6 +42,11 @@ const ProfileDetails = () => {
     ];
   }
 
+  const isUserProfile = isAuthenticate && userId === user?._id;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
+
   return (
     <>
       <div className="py-12 flex items-center">
@@ -50,6 +62,18 @@ const ProfileDetails = () => {
           <h1 className="text-3xl font-bold">{data?.login}</h1>
         </div>
       </div>
+      {isUserProfile && (
+        <div className="flex justify-end gap-x-4">
+          <Button variant="primary" onClick={handleEditProfile}>
+            <EditIcon width={20} height={20} />
+            Edit
+          </Button>
+          <Button variant="primary" onClick={() => {}}>
+            <DeleteIcon width={20} height={20} />
+            Delete
+          </Button>
+        </div>
+      )}
       <ProfileTabs userId={data?._id} />
     </>
   );

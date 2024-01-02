@@ -49,9 +49,9 @@ const App = () => {
         <Route path="profile/:userId" element={<ProfileLayout />}>
           <Route path="recipes" element={<ProfileRecipesPage />} />
           <Route path="favorites" element={<ProfileFavoritesPage />} />
-          <Route element={<RequireAuth />}>
-            <Route path="edit" element={<ProfileEditPage />} />
-          </Route>
+        </Route>
+        <Route element={<RequireAuth />}>
+          <Route path="profile/:userId/edit" element={<ProfileEditPage />} />
         </Route>
       </Route>
       <Route path="auth" element={<AuthLayout />}>
