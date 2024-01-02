@@ -7,6 +7,7 @@ import { GetRecipeDetailsDTO } from "./dto/get-recipe-details";
 import { GetUserRecipesDTO } from "./dto/get-user-recipes";
 import { GetFavoriteRecipesDTO } from "./dto/get-favorite-recipes";
 import { AddRecipeInDTO } from "./dto/add-recipe.in";
+import { DeleteRecipeInDTO } from "./dto/delete-recipe.in";
 
 type GetRecipesParams = {
     page: number,
@@ -102,6 +103,13 @@ export const recipesApi = createApi({
                 }
             },
             invalidatesTags: ["Recipes"]
+        }),
+        deleteRecipe: builder.mutation<DeleteRecipeInDTO, string>({
+            query: id => ({
+                url: `/${id}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["Recipes"]
         })
     }),
     tagTypes: ["Recipes"]
@@ -116,4 +124,5 @@ export const {
     useLazyGetUserRecipesQuery,
     useLazyGetFavoriteRecipesQuery,
     useAddRecipeMutation,
+    useDeleteRecipeMutation,
 } = recipesApi;

@@ -1,24 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 import { GetRecipeDetailsDTO } from "../../../api/recipes/dto/get-recipe-details";
 import { Link } from "react-router-dom";
 import Rating from "../../../components/Rating";
+import Button from "../../../components/Button";
+import DeleteRecipeModal from "./DeleteRecipeModal";
+
+import EditIcon from "../../../assets/icons/edit.svg";
+import DeleteIcon from "../../../assets/icons/delete.svg";
 
 type RecipeDetalsInfoProps = {
   recipe?: GetRecipeDetailsDTO;
 };
 
 const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
+  const { isAuthenticate, user } = useAuth();
+
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
   let date: string | string[] | undefined = recipe?.date
     .toString()
     .split(/:|T|-/);
   date = date ? `${date[1]}.${date[2]}.${date[0]}` : "";
 
+  const isUserRecipe = isAuthenticate && recipe?.author._id === user?._id;
+
+  const handleOpenModal = () => setIsOpenModal(true);
+  const handleCloseModal = () => setIsOpenModal(false);
+
   return (
     <div className="">
-      <div className="mb-7 flex items-center gap-x-7">
-        <h2 className="text-2xl font-bold">{recipe?.title}</h2>
-        {recipe?.ratings && (
-          <Rating rating={recipe?.ratings} rateNumber={true} />
+      <div className="flex justify-between items-center">
+        <div className="mb-7 flex items-center gap-x-7">
+          <h2 className="text-2xl font-bold">{recipe?.title}</h2>
+          {recipe?.ratings && (
+            <Rating rating={recipe?.ratings} rateNumber={true} />
+          )}
+        </div>
+        {isUserRecipe && (
+          <div className="flex gap-x-4">
+            <Button variant="primary">
+              <EditIcon width={20} height={20} />
+              Edit
+            </Button>
+            <Button variant="primary" onClick={handleOpenModal}>
+              <DeleteIcon width={20} height={20} />
+              Delete
+            </Button>
+          </div>
         )}
       </div>
       <p className="mb-7 text-gray-500">{recipe?.description}</p>
@@ -36,6 +65,10 @@ const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
         <span>|</span>
         <span className="">Created in {date}</span>
       </div>
+
+      {isOpenModal && (
+        <DeleteRecipeModal recipe={recipe} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };
