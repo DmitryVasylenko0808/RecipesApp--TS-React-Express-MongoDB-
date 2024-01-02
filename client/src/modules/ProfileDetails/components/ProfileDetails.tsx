@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 import { useGetProfileQuery } from "../../../api/profiles/profilesApt";
 import { useLocation, useNavigate, useParams } from "react-router";
 import ProfileTabs from "./ProfileTabs";
 import BreadCrumbs from "./BreadCrumbs";
 import Button from "../../../components/Button";
-
-import { BASE_API_URL_AVATARS } from "../../../constants/api";
+import DeleteProfileModal from "./DeleteProfileModal";
 
 import { BreadCrumb } from "../types";
 
 import nullAvatar from "../../../assets/images/nullavatar.jpg";
 import EditIcon from "../../../assets/icons/edit.svg";
 import DeleteIcon from "../../../assets/icons/delete.svg";
-import { useAuth } from "../../../hooks/useAuth";
 
 const ProfileDetails = () => {
   const { isAuthenticate, user } = useAuth();
@@ -20,9 +19,13 @@ const ProfileDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
   const { data, isLoading, isError } = useGetProfileQuery(userId);
 
   const handleEditProfile = () => navigate(`/profile/${userId}/edit`);
+  const handleOpenModal = () => setIsOpenModal(true);
+  const handleCloseModal = () => setIsOpenModal(false);
 
   const imgSrc = data?.avatar_file ? data.avatar_file : nullAvatar;
 
@@ -68,13 +71,14 @@ const ProfileDetails = () => {
             <EditIcon width={20} height={20} />
             Edit
           </Button>
-          <Button variant="primary" onClick={() => {}}>
+          <Button variant="primary" onClick={handleOpenModal}>
             <DeleteIcon width={20} height={20} />
             Delete
           </Button>
         </div>
       )}
       <ProfileTabs userId={data?._id} />
+      {isOpenModal && <DeleteProfileModal onClose={handleCloseModal} />}
     </>
   );
 };

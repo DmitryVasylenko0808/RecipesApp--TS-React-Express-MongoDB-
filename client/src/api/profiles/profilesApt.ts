@@ -35,9 +35,20 @@ export const profilesApi = createApi({
                 }
             },
             invalidatesTags: ["Profiles"]
+        }),
+        deleteProfile: builder.mutation<unknown, void>({
+            query: () => ({
+                url: "/",
+                method: "DELETE"
+            }),
+            invalidatesTags: ["Profiles"]
         })
     }),
     tagTypes: ["Profiles"]
 });
 
-export const { useGetProfileQuery, useEditProfileMutation } = profilesApi;
+export const { 
+    useGetProfileQuery, 
+    useEditProfileMutation, 
+    useDeleteProfileMutation 
+} = profilesApi;
