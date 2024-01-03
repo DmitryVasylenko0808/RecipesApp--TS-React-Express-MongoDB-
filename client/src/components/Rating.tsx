@@ -1,9 +1,9 @@
 import React from "react";
+import { useRate } from "../hooks/useRate";
 import { RatingData } from "../types";
 
 import RateIcon from "../assets/icons/rate.svg";
 import RateFilledIcon from "../assets/icons/rate_filled.svg";
-import { useRate } from "../hooks/useRate";
 
 type RatingProps = {
   rating: RatingData;

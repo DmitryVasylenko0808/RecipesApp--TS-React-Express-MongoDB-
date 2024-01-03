@@ -10,9 +10,15 @@ import RateAnalyticItem from "./RateAnalyticItem";
 
 type RateAnalyticsProps = {
   rating: RatingData;
+  isRated: boolean;
+  onRate: () => void;
 };
 
-const RateAnalytics: React.FC<RateAnalyticsProps> = ({ rating }) => {
+const RateAnalytics: React.FC<RateAnalyticsProps> = ({
+  rating,
+  isRated,
+  onRate,
+}) => {
   const { countRate, analytics } = useRate(rating);
 
   return (
@@ -25,7 +31,11 @@ const RateAnalytics: React.FC<RateAnalyticsProps> = ({ rating }) => {
           Rate it!
         </p>
         <div className="mb-8 flex justify-center">
-          <Button variant="secondary">Add rating</Button>
+          {!isRated && (
+            <Button variant="secondary" onClick={onRate}>
+              Add rating
+            </Button>
+          )}
         </div>
         <hr className="mb-5 border-b-0.5 border-gray-400/50" />
         <div className="flex justify-center">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useFavoriteRecipeMutation,
   useGetRecipeDetailsQuery,
@@ -25,11 +25,17 @@ import {
   addFavoriteRecipe,
   unfavoriteRecipe,
 } from "../../../redux/slices/favoritesSlice";
+import RateRecipeModal from "./RateRecipeModal";
+import { useAuth } from "../../../hooks/useAuth";
+import { RatingData } from "../../../types";
 
 const RecipeDetails = () => {
   const favorites = useAppSelect((state) => state.favorites);
   const dispatch = useAppDispatch();
   const { recipeId } = useParams();
+  const { isAuthenticate, user } = useAuth();
+
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const { data, isLoading, isError } = useGetRecipeDetailsQuery(recipeId);
   const [favoriteRecipeTrigger, { isLoading: isFavoriteRecipeLoading }] =
@@ -52,6 +58,22 @@ const RecipeDetails = () => {
       }
     }
   };
+
+  const checkRatedByUser = (rating: RatingData, userId: string) => {
+    for (let k of Object.keys(rating)) {
+      if (rating[k as keyof RatingData].includes(userId)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  const handleOpenRateModal = () => setIsOpenModal(true);
+  const handleCloseRateModal = () => setIsOpenModal(false);
+
+  const isRatedByUser =
+    data && user && checkRatedByUser(data.ratings, user._id);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <Navigate to="/" replace />;
@@ -80,9 +102,13 @@ const RecipeDetails = () => {
               Unfavorite
             </Button>
           )}
-          <Button variant="secondary" onClick={() => {}}>
+          <Button
+            variant="secondary"
+            onClick={handleOpenRateModal}
+            disabled={!!isRatedByUser}
+          >
             <RateIcon width={25} height={25} />
-            Rate
+            {isRatedByUser ? "Rated" : "Rate"}
           </Button>
         </div>
         {data?.image && <RecipeImage imageSrc={data.image} alt={data.title} />}
@@ -112,8 +138,15 @@ const RecipeDetails = () => {
           <RecipeFact label="Fats" value={`${data?.nutritions.fat}`} />
           <RecipeFact label="Proteins" value={`${data?.nutritions.protein}`} />
         </Box>
-        {data?.ratings && <RateAnalytics rating={data.ratings} />}
+        {data?.ratings && (
+          <RateAnalytics
+            rating={data.ratings}
+            isRated={!!isRatedByUser}
+            onRate={handleOpenRateModal}
+          />
+        )}
       </Container>
+      {isOpenModal && <RateRecipeModal onClose={handleCloseRateModal} />}
     </div>
   );
 };

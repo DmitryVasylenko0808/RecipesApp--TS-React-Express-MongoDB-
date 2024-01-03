@@ -11,6 +11,7 @@ import { DeleteRecipeInDTO } from "./dto/delete-recipe.in";
 import { EditRecipeDTO } from "./dto/edit-recipe";
 import { FavoriteRecipeDTO } from "./dto/favorite-recipe";
 import { UnfavoriteRecipeDTO } from "./dto/unfavorite-recipe";
+import { RateRecipeDTO } from "./dto/rate-recipe";
 
 type GetRecipesParams = {
     page: number,
@@ -69,7 +70,12 @@ type EditRecipeParams = {
 
 type FavoriteRecipeParams = {
     id: string;
-}
+};
+
+type RateRecipeParams = {
+    id?: string;
+    value: number;
+};
 
 export const recipesApi = createApi({
     reducerPath: "recipesApi",
@@ -176,6 +182,14 @@ export const recipesApi = createApi({
                 method: "DELETE"
             }),
             invalidatesTags: ["Recipes"]
+        }),
+        rateRecipe: builder.mutation<RateRecipeDTO, RateRecipeParams>({
+            query: ({ id, value }) => ({
+                url: `/rate/${id}`,
+                method: "PATCH",
+                body: { value }
+            }),
+            invalidatesTags: ["Recipes"]
         })
     }),
     tagTypes: ["Recipes"]
@@ -194,4 +208,5 @@ export const {
     useDeleteRecipeMutation,
     useFavoriteRecipeMutation,
     useUnfavoriteRecipeMutation,
+    useRateRecipeMutation
 } = recipesApi;
