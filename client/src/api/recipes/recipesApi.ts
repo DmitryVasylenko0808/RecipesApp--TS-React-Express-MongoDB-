@@ -9,6 +9,8 @@ import { GetFavoriteRecipesDTO } from "./dto/get-favorite-recipes";
 import { AddRecipeInDTO } from "./dto/add-recipe.in";
 import { DeleteRecipeInDTO } from "./dto/delete-recipe.in";
 import { EditRecipeDTO } from "./dto/edit-recipe";
+import { FavoriteRecipeDTO } from "./dto/favorite-recipe";
+import { UnfavoriteRecipeDTO } from "./dto/unfavorite-recipe";
 
 type GetRecipesParams = {
     page: number,
@@ -64,6 +66,10 @@ type EditRecipeParams = {
     date: Date | string | number;
     image?: File; 
 };
+
+type FavoriteRecipeParams = {
+    id: string;
+}
 
 export const recipesApi = createApi({
     reducerPath: "recipesApi",
@@ -155,6 +161,21 @@ export const recipesApi = createApi({
                 method: "DELETE"
             }),
             invalidatesTags: ["Recipes"]
+        }),
+        favoriteRecipe: builder.mutation<FavoriteRecipeDTO, FavoriteRecipeParams>({
+            query: body => ({
+                url: "/favorites/",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["Recipes"]
+        }),
+        unfavoriteRecipe: builder.mutation<UnfavoriteRecipeDTO, string>({
+            query: id => ({
+                url: `/favorites/${id}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["Recipes"]
         })
     }),
     tagTypes: ["Recipes"]
@@ -171,4 +192,6 @@ export const {
     useAddRecipeMutation,
     useEditRecipeMutation,
     useDeleteRecipeMutation,
+    useFavoriteRecipeMutation,
+    useUnfavoriteRecipeMutation,
 } = recipesApi;

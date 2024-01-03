@@ -1,5 +1,9 @@
 import React from "react";
-import { useGetRecipeDetailsQuery } from "../../../api/recipes/recipesApi";
+import {
+  useFavoriteRecipeMutation,
+  useGetRecipeDetailsQuery,
+  useUnfavoriteRecipeMutation,
+} from "../../../api/recipes/recipesApi";
 import { Navigate, useParams } from "react-router";
 import Container from "../../../components/Container";
 import Rating from "../../../components/Rating";
@@ -16,11 +20,38 @@ import RecipeSteps from "./RecipeSteps";
 import Box from "./Box";
 import RecipeFact from "./RecipeFact";
 import RateAnalytics from "./RateAnalytics";
+import { useAppDispatch, useAppSelect } from "../../../redux/hooks";
+import {
+  addFavoriteRecipe,
+  unfavoriteRecipe,
+} from "../../../redux/slices/favoritesSlice";
 
 const RecipeDetails = () => {
+  const favorites = useAppSelect((state) => state.favorites);
+  const dispatch = useAppDispatch();
   const { recipeId } = useParams();
 
   const { data, isLoading, isError } = useGetRecipeDetailsQuery(recipeId);
+  const [favoriteRecipeTrigger, { isLoading: isFavoriteRecipeLoading }] =
+    useFavoriteRecipeMutation();
+  const [unfavoriteRecipeTrigger, { isLoading: isUnfavoriteRecipeLoading }] =
+    useUnfavoriteRecipeMutation();
+
+  const handleToggleFavorite = () => {
+    if (recipeId) {
+      if (!favorites.data.includes(recipeId)) {
+        favoriteRecipeTrigger({ id: recipeId })
+          .unwrap()
+          .then(() => dispatch(addFavoriteRecipe(recipeId)))
+          .catch((err) => alert(err.data.message));
+      } else {
+        unfavoriteRecipeTrigger(recipeId)
+          .unwrap()
+          .then(() => dispatch(unfavoriteRecipe(recipeId)))
+          .catch((err) => alert(err.data.message));
+      }
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <Navigate to="/" replace />;
@@ -30,10 +61,25 @@ const RecipeDetails = () => {
       <Container>
         <RecipeDetalsInfo recipe={data} />
         <div className="mb-7 flex gap-x-4">
-          <Button variant="secondary" onClick={() => {}}>
-            <FavoriteIcon width={25} height={25} />
-            Favorite
-          </Button>
+          {!favorites.data.includes(recipeId || "") ? (
+            <Button
+              variant="secondary"
+              disabled={isFavoriteRecipeLoading}
+              onClick={handleToggleFavorite}
+            >
+              <FavoriteIcon width={25} height={25} />
+              Favorite
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              disabled={isUnfavoriteRecipeLoading}
+              onClick={handleToggleFavorite}
+            >
+              <FavoriteIcon width={25} height={25} fill="#ffffff" />
+              Unfavorite
+            </Button>
+          )}
           <Button variant="secondary" onClick={() => {}}>
             <RateIcon width={25} height={25} />
             Rate

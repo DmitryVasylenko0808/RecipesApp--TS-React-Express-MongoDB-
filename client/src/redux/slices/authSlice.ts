@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 type User = {
     _id: string,
     login: string,
+    favorite_recipes?: string[],
     token: string
 };
 
@@ -27,5 +28,8 @@ export const authSlice = createSlice({
     }
 })
 
-export const { setUserInfo, logOut } = authSlice.actions;
+export const { 
+    setUserInfo, 
+    logOut
+} = authSlice.actions;
 export default authSlice.reducer;

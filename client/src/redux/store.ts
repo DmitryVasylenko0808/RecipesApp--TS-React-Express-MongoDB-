@@ -5,6 +5,7 @@ import { reviewsApi } from "../api/reviews/reviewsApi";
 import { authApi } from "../api/auth/authApi";
 import authSlice from "./slices/authSlice";
 import { profilesApi } from "../api/profiles/profilesApt";
+import favoritesSlice from "./slices/favoritesSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         [reviewsApi.reducerPath]: reviewsApi.reducer,
         [profilesApi.reducerPath]: profilesApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
-        auth: authSlice
+        auth: authSlice,
+        favorites: favoritesSlice
     },
     middleware: (getDefaultMiddeware) => getDefaultMiddeware()
         .concat(recipesApi.middleware, reviewsApi.middleware, profilesApi.middleware, authApi.middleware)

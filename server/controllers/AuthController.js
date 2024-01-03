@@ -70,7 +70,7 @@ class AuthController {
 
     static async getMe(req, res) {
         try {
-            const user = await UserModel.findById(req.userId, "-favorite_recipes -password_hash");
+            const user = await UserModel.findById(req.userId, "-password_hash");
             if (!user) {
                 res.status(404).json({ message: "User is not found" });
             }

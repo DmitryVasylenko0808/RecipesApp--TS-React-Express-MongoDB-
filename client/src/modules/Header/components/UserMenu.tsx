@@ -6,6 +6,7 @@ import LogOutIcon from "../../../assets/icons/logout.svg";
 import { useAppDispatch } from "../../../redux/hooks";
 import { logOut } from "../../../redux/slices/authSlice";
 import { useAuth } from "../../../hooks/useAuth";
+import { clearFavorites } from "../../../redux/slices/favoritesSlice";
 
 type User = {
   _id: string;
@@ -26,6 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const handleLogOut = () => {
     removeToken();
     dispatch(logOut());
+    dispatch(clearFavorites());
   };
 
   return (

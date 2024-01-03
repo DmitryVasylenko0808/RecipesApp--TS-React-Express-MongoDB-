@@ -17,6 +17,7 @@ import { useAuth } from "./hooks/useAuth";
 import { useAppDispatch } from "./redux/hooks";
 import { useLazyGetMeQuery } from "./api/auth/authApi";
 import { setUserInfo } from "./redux/slices/authSlice";
+import { setFavorites } from "./redux/slices/favoritesSlice";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -30,8 +31,10 @@ const App = () => {
       fetchUser()
         .unwrap()
         .then((res) => {
-          const { avatar_file, ...userData } = res;
+          const { avatar_file, favorite_recipes, ...userData } = res;
+          console.log(favorite_recipes);
           dispatch(setUserInfo({ ...userData, token }));
+          dispatch(setFavorites(favorite_recipes));
         })
         .catch((err) => alert(err.data.message));
     }
