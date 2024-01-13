@@ -11,6 +11,7 @@ import Container from "../../../components/Container";
 import { GetRecipesDTO } from "../../../api/recipes/dto/get-recipes";
 import { Option } from "../../../types";
 import Select from "../../../components/Select";
+import InfiniteScroll from "../../../components/InfiniteScroll";
 
 const MainRecipes = () => {
   const [page, setPage] = useState<number>(1);
@@ -40,11 +41,6 @@ const MainRecipes = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [fetchedRecipes.isFetching]);
-
-  useEffect(() => {
     if (fetchedRecipes.data) {
       if (page === 1) {
         setRecipes([...fetchedRecipes.data]);
@@ -55,13 +51,6 @@ const MainRecipes = () => {
   }, [fetchedRecipes.data]);
 
   const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      fetchedRecipes.isFetching
-    ) {
-      return;
-    }
     setPage(page + 1);
     getRecipes({ page: page + 1, sortDate, kind });
   };
@@ -109,10 +98,12 @@ const MainRecipes = () => {
             onSelect={handleSelectSortDateOption}
           />
         </div>
-        <RecipesList recipes={recipes || []}></RecipesList>
-        {fetchedRecipes.isFetching && (
-          <div className="py-7 text-center">Loading...</div>
-        )}
+        <InfiniteScroll
+          isFetching={fetchedRecipes.isFetching}
+          onScroll={handleScroll}
+        >
+          <RecipesList recipes={recipes || []} />
+        </InfiniteScroll>
       </Container>
     </>
   );

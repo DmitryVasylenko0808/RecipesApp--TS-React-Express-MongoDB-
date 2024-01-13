@@ -6,6 +6,7 @@ import { GetReviewsDTO } from "../../../api/reviews/dto/get-reviews";
 import ReviewsList from "./ReviewsList";
 import { Option } from "../../../types";
 import Select from "../../../components/Select";
+import InfiniteScroll from "../../../components/InfiniteScroll";
 
 const RecipeReviews = () => {
   const { recipeId } = useParams();
@@ -25,11 +26,6 @@ const RecipeReviews = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [fetchedReviews.isFetching]);
-
-  useEffect(() => {
     if (fetchedReviews.data) {
       if (page === 1) {
         setReviews([...fetchedReviews.data]);
@@ -40,13 +36,6 @@ const RecipeReviews = () => {
   }, [fetchedReviews.data]);
 
   const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      fetchedReviews.isFetching
-    ) {
-      return;
-    }
     setPage(page + 1);
 
     const { value } =
@@ -77,14 +66,16 @@ const RecipeReviews = () => {
           />
         </div>
         {reviews.length ? (
-          <ReviewsList data={reviews} />
+          <InfiniteScroll
+            isFetching={fetchedReviews.isFetching}
+            onScroll={handleScroll}
+          >
+            <ReviewsList data={reviews} />
+          </InfiniteScroll>
         ) : (
           <div className="py-7 text-xl text-center text-gray-500">
             No reviews
           </div>
-        )}
-        {fetchedReviews.isFetching && (
-          <div className="py-7 text-center">Loading...</div>
         )}
       </Container>
     </div>

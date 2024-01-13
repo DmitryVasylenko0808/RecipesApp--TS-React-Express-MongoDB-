@@ -5,6 +5,7 @@ import { Option } from "../../../types";
 import { useParams } from "react-router";
 import RecipesList from "../../../components/RecipesList";
 import Select from "../../../components/Select";
+import InfiniteScroll from "../../../components/InfiniteScroll";
 
 const UserRecipes = () => {
   const { userId } = useParams();
@@ -28,11 +29,6 @@ const UserRecipes = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [fetchedUserRecipesData.isFetching]);
-
-  useEffect(() => {
     if (fetchedUserRecipesData.data) {
       if (page === 1) {
         setRecipes([...fetchedUserRecipesData.data]);
@@ -43,13 +39,6 @@ const UserRecipes = () => {
   }, [fetchedUserRecipesData.data]);
 
   const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      fetchedUserRecipesData.isFetching
-    ) {
-      return;
-    }
     setPage(page + 1);
 
     const currentOption = sortDateOptions.find((o) => o.selected === true);
@@ -80,10 +69,12 @@ const UserRecipes = () => {
           onSelect={handleSelectSortDateOption}
         />
       </div>
-      <RecipesList recipes={recipes || []}></RecipesList>
-      {fetchedUserRecipesData.isFetching && (
-        <div className="py-7 text-center">Loading...</div>
-      )}
+      <InfiniteScroll
+        isFetching={fetchedUserRecipesData.isFetching}
+        onScroll={handleScroll}
+      >
+        <RecipesList recipes={recipes || []} />
+      </InfiniteScroll>
     </>
   );
 };

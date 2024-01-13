@@ -5,6 +5,7 @@ import { GetUserRecipesDTO } from "../../../api/recipes/dto/get-user-recipes";
 import { Option } from "../../../types";
 import RecipesList from "../../../components/RecipesList";
 import Select from "../../../components/Select";
+import InfiniteScroll from "../../../components/InfiniteScroll";
 
 const FavoriteRecipes = () => {
   const { userId } = useParams();
@@ -28,11 +29,6 @@ const FavoriteRecipes = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [fetchedFavoriteRecipesData.isFetching]);
-
-  useEffect(() => {
     if (fetchedFavoriteRecipesData.data) {
       if (page === 1) {
         setRecipes([...fetchedFavoriteRecipesData.data]);
@@ -43,13 +39,6 @@ const FavoriteRecipes = () => {
   }, [fetchedFavoriteRecipesData.data]);
 
   const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      fetchedFavoriteRecipesData.isFetching
-    ) {
-      return;
-    }
     setPage(page + 1);
 
     const currentOption = sortDateOptions.find((o) => o.selected === true);
@@ -80,10 +69,12 @@ const FavoriteRecipes = () => {
           onSelect={handleSelectSortDateOption}
         />
       </div>
-      <RecipesList recipes={recipes || []}></RecipesList>
-      {fetchedFavoriteRecipesData.isFetching && (
-        <div className="py-7 text-center">Loading...</div>
-      )}
+      <InfiniteScroll
+        isFetching={fetchedFavoriteRecipesData.isFetching}
+        onScroll={handleScroll}
+      >
+        <RecipesList recipes={recipes || []} />
+      </InfiniteScroll>
     </>
   );
 };
