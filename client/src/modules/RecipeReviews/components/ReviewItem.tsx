@@ -1,19 +1,16 @@
 import React from "react";
 import { Review } from "../../../api/reviews/dto/get-reviews";
-import { BASE_API_URL_AVATARS } from "../../../constants/api";
 import { Link } from "react-router-dom";
 
 import nullAvatar from "../../../assets/images/nullavatar.jpg";
+import { formatDate } from "../../../utils/formatDate";
 
 type ReviewItemProps = {
   review: Review;
 };
 
 const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
-  let date: string | string[] | undefined = review?.createdAt
-    .toString()
-    .split(/:|T|-/);
-  date = date ? `${date[1]}.${date[2]}.${date[0]}` : "";
+  let date = formatDate(review?.createdAt);
 
   const imgSrc = review.author.avatar_file
     ? review.author.avatar_file

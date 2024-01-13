@@ -8,6 +8,7 @@ import DeleteRecipeModal from "./DeleteRecipeModal";
 
 import EditIcon from "../../../assets/icons/edit.svg";
 import DeleteIcon from "../../../assets/icons/delete.svg";
+import { formatDate } from "../../../utils/formatDate";
 
 type RecipeDetalsInfoProps = {
   recipe?: GetRecipeDetailsDTO;
@@ -19,12 +20,8 @@ const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
-  let date: string | string[] | undefined = recipe?.date
-    .toString()
-    .split(/:|T|-/);
-  date = date ? `${date[1]}.${date[2]}.${date[0]}` : "";
-
   const isUserRecipe = isAuthenticate && recipe?.author._id === user?._id;
+  const date = formatDate(recipe?.date);
 
   const handleEdit = () => navigate(`/${recipe?._id}/edit`);
   const handleOpenModal = () => setIsOpenModal(true);

@@ -3,7 +3,6 @@ import { BASE_API_URL_RECIPE_IMAGES } from "../constants/api";
 import { Link } from "react-router-dom";
 
 import Rating from "./Rating";
-import FavoriteButton from "./FavoriteButton";
 
 type Kind = {
   _id: string;
@@ -47,9 +46,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
           <h3 className="inline text-xl font-bold">{recipe.title}</h3>
         </Link>
         <Rating rating={recipe.ratings} />
-      </div>
-      <div className="absolute top-4 right-4">
-        <FavoriteButton />
       </div>
     </div>
   );
