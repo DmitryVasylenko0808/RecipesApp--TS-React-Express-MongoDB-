@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router";
 import MainLayout from "./layouts/MainLayout";
-import ProfileLayout from "./layouts/ProfileLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import MainPage from "./pages/MainPage";
 import RecipeDetailsPage from "./pages/RecipeDetailsPage";
-import ProfileRecipesPage from "./pages/ProfileRecipesPage";
-import ProfileFavoritesPage from "./pages/ProfileFavoritesPage";
 import RequireAuth from "./components/RequireAuth";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import SignInPage from "./pages/SignInPage";
@@ -18,6 +15,7 @@ import { useAppDispatch } from "./redux/hooks";
 import { useLazyGetMeQuery } from "./api/auth/authApi";
 import { setUserInfo } from "./redux/slices/authSlice";
 import { setFavorites } from "./redux/slices/favoritesSlice";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -49,10 +47,7 @@ const App = () => {
         <Route element={<RequireAuth />}>
           <Route path=":recipeId/edit" element={<EditRecipePage />} />
         </Route>
-        <Route path="profile/:userId" element={<ProfileLayout />}>
-          <Route path="recipes" element={<ProfileRecipesPage />} />
-          <Route path="favorites" element={<ProfileFavoritesPage />} />
-        </Route>
+        <Route path="profile/:userId" element={<ProfilePage />} />
         <Route element={<RequireAuth />}>
           <Route path="profile/:userId/edit" element={<ProfileEditPage />} />
         </Route>

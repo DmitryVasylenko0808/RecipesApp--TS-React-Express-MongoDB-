@@ -58,7 +58,7 @@ const RecipeDetalsInfo: React.FC<RecipeDetalsInfoProps> = ({ recipe }) => {
         <span className="">
           Recipe by{" "}
           <Link
-            to={`/profile/${recipe?.author._id}/recipes`}
+            to={`/profile/${recipe?.author._id}`}
             className="text-[18px] font-bold"
           >
             {recipe?.author.login}
