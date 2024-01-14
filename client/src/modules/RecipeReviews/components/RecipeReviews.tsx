@@ -59,7 +59,7 @@ const RecipeReviews = () => {
     <div>
       <Container>
         <div className="mb-7 pb-4 border-b-4 flex justify-between items-center">
-          <h3 className="text-xl font-bold">Reviews (total count)</h3>
+          <h3 className="text-xl font-bold">Reviews</h3>
           <Select
             options={sortDateOptions}
             onSelect={handleSelectSortDateOption}

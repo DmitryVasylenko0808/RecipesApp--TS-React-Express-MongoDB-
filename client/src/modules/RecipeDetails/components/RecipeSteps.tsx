@@ -10,7 +10,7 @@ const RecipeSteps: React.FC<RecipeStepsProps> = ({ steps }) => {
       <h3 className="mb-5 text-xl font-bold">Steps</h3>
       <ul className="pl-2 space-y-4">
         {steps.map((s, i) => (
-          <li className="">
+          <li className="" key={i}>
             <h4 className="mb-3 font-bold">Step {i + 1}</h4>
             <p className="text-gray-500">{s}</p>
           </li>

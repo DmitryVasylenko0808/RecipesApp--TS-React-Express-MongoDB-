@@ -42,8 +42,8 @@ const RateAnalytics: React.FC<RateAnalyticsProps> = ({
           <Rating rating={rating} rateNumber />
         </div>
         <div className="py-5 space-y-4">
-          {analytics.map((a) => (
-            <RateAnalyticItem analytics={a} />
+          {analytics.map((a, i) => (
+            <RateAnalyticItem analytics={a} key={i} />
           ))}
         </div>
       </Paper>

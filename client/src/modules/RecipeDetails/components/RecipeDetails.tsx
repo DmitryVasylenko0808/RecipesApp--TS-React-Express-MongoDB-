@@ -107,7 +107,6 @@ const RecipeDetails = () => {
             onClick={handleOpenRateModal}
             disabled={!!isRatedByUser}
           >
-            <RateIcon width={25} height={25} />
             {isRatedByUser ? "Rated" : "Rate"}
           </Button>
         </div>

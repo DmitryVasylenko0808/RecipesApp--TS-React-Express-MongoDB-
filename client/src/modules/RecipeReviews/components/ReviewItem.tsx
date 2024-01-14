@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import nullAvatar from "../../../assets/images/nullavatar.jpg";
 import { formatDate } from "../../../utils/formatDate";
+import { BASE_API_URL_AVATARS } from "../../../constants/api";
 
 type ReviewItemProps = {
   review: Review;
@@ -13,7 +14,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   let date = formatDate(review?.createdAt);
 
   const imgSrc = review.author.avatar_file
-    ? review.author.avatar_file
+    ? `${BASE_API_URL_AVATARS}/${review.author.avatar_file}`
     : nullAvatar;
 
   return (
@@ -30,7 +31,6 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
           <Link to={"/"} className="font-bold">
             {review.author.login}
           </Link>
-          <div className="">rate</div>
         </div>
         <span className="text-sm text-gray-500">{date}</span>
       </div>

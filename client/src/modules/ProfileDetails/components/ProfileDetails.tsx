@@ -8,6 +8,7 @@ import DeleteProfileModal from "./DeleteProfileModal";
 import nullAvatar from "../../../assets/images/nullavatar.jpg";
 import EditIcon from "../../../assets/icons/edit.svg";
 import DeleteIcon from "../../../assets/icons/delete.svg";
+import { BASE_API_URL_AVATARS } from "../../../constants/api";
 
 const ProfileDetails = () => {
   const { isAuthenticate, user } = useAuth();
@@ -22,7 +23,9 @@ const ProfileDetails = () => {
   const handleOpenModal = () => setIsOpenModal(true);
   const handleCloseModal = () => setIsOpenModal(false);
 
-  const imgSrc = data?.avatar_file ? data.avatar_file : nullAvatar;
+  const imgSrc = data?.avatar_file
+    ? `${BASE_API_URL_AVATARS}/${data.avatar_file}`
+    : nullAvatar;
 
   const isUserProfile = isAuthenticate && userId === user?._id;
 

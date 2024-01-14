@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
-import ThemeButton from "./ThemeButton";
 import UserMenu from "./UserMenu";
 import LogInButton from "./LogInButton";
 import Container from "../../../components/Container";
@@ -21,8 +20,12 @@ const Header = () => {
           <Logo />
           <SearchBar />
           <div className="flex">
-            <Link to="/create">Create recipe</Link>
-            <ThemeButton />
+            <Link
+              to="/create"
+              className="min-w-[70px] min-h-[70px] px-4 flex justify-center items-center gap-x-2 text-lg text-white font-bold hover:bg-transparent/10 duration-300"
+            >
+              + Create recipe
+            </Link>
             {isAuthenticate ? <UserMenu user={user!} /> : <LogInButton />}
           </div>
         </div>
