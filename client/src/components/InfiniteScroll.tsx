@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Loading from "./Loading";
 
 type InfiniteScrollProps = {
   isFetching: boolean;
@@ -31,7 +32,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   return (
     <>
       {children}
-      {isFetching && <div className="py-7 text-center">Loading...</div>}
+      {isFetching && <Loading />}
     </>
   );
 };

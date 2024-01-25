@@ -17,7 +17,7 @@ const ProfileDetails = () => {
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
-  const { data, isLoading, isError } = useGetProfileQuery(userId);
+  const { data, isError } = useGetProfileQuery(userId);
 
   const handleEditProfile = () => navigate(`/profile/${userId}/edit`);
   const handleOpenModal = () => setIsOpenModal(true);
@@ -29,7 +29,6 @@ const ProfileDetails = () => {
 
   const isUserProfile = isAuthenticate && userId === user?._id;
 
-  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
 
   return (

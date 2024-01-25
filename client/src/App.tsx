@@ -1,4 +1,9 @@
 import React, { useEffect } from "react";
+import { useAuth } from "./hooks/useAuth";
+import { useAppDispatch } from "./redux/hooks";
+import { useLazyGetMeQuery } from "./api/auth/authApi";
+import { setUserInfo } from "./redux/slices/authSlice";
+import { setFavorites } from "./redux/slices/favoritesSlice";
 import { Route, Routes } from "react-router";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
@@ -10,11 +15,6 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
-import { useAuth } from "./hooks/useAuth";
-import { useAppDispatch } from "./redux/hooks";
-import { useLazyGetMeQuery } from "./api/auth/authApi";
-import { setUserInfo } from "./redux/slices/authSlice";
-import { setFavorites } from "./redux/slices/favoritesSlice";
 import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
@@ -30,7 +30,6 @@ const App = () => {
         .unwrap()
         .then((res) => {
           const { avatar_file, favorite_recipes, ...userData } = res;
-          console.log(favorite_recipes);
           dispatch(setUserInfo({ ...userData, token }));
           dispatch(setFavorites(favorite_recipes));
         })

@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   useEditProfileMutation,
   useGetProfileQuery,
@@ -10,6 +10,7 @@ import Paper from "../../../components/Paper";
 import TextField from "../../../components/TextField";
 import FileSelect from "../../../components/FileSelect";
 import Button from "../../../components/Button";
+import Loading from "../../../components/Loading";
 
 type EditProfileFormFields = {
   login: string;
@@ -18,6 +19,7 @@ type EditProfileFormFields = {
 
 const EditProfileForm = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const { data, isLoading, isError } = useGetProfileQuery(userId);
   const [editProfile, { isLoading: isLoadingEdit }] = useEditProfileMutation();
@@ -34,7 +36,6 @@ const EditProfileForm = () => {
   });
 
   const onSubmit = (submitData: EditProfileFormFields) => {
-    console.log(submitData);
     editProfile({
       ...submitData,
       avatar_file: submitData?.avatar_file
@@ -42,11 +43,16 @@ const EditProfileForm = () => {
         : null,
     })
       .unwrap()
-      .then(() => alert("Success"))
+      .then(() => navigate(`/profile/${userId}`))
       .catch((err) => alert(err.data.message));
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
   if (isError) return <div>Error</div>;
 
   return (
@@ -72,7 +78,11 @@ const EditProfileForm = () => {
                 {...register("avatar_file")}
               />
               <div className="flex justify-end">
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  disabled={isLoadingEdit}
+                >
                   {isLoadingEdit ? "Proccessing..." : "Edit"}
                 </Button>
               </div>

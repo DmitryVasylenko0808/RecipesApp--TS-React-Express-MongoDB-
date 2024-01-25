@@ -29,7 +29,7 @@ const DeleteRecipeModal: React.FC<DeleteRecipeModalProps> = ({
     <Modal onClose={onClose}>
       <h2 className="mb-8 font-bold text-xl text-center">
         Do you really want to delete the recipe
-        <br />"{recipe?.title}"
+        <br />"{recipe?.title}"?
       </h2>
       <div className="flex justify-between items-center">
         <Button variant="outline" onClick={onClose}>

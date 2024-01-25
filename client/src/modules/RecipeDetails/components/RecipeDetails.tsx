@@ -28,6 +28,7 @@ import {
 import RateRecipeModal from "./RateRecipeModal";
 import { useAuth } from "../../../hooks/useAuth";
 import { RatingData } from "../../../types";
+import Loading from "../../../components/Loading";
 
 const RecipeDetails = () => {
   const favorites = useAppSelect((state) => state.favorites);
@@ -75,7 +76,12 @@ const RecipeDetails = () => {
   const isRatedByUser =
     data && user && checkRatedByUser(data.ratings, user._id);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
   if (isError) return <Navigate to="/" replace />;
 
   return (

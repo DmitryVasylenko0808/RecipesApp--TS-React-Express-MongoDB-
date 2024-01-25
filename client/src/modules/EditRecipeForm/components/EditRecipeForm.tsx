@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import Paper from "../../../components/Paper";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   useEditRecipeMutation,
   useGetKindsQuery,
@@ -14,6 +14,7 @@ import Select from "../../../components/Select";
 import FileSelect from "../../../components/FileSelect";
 import Button from "../../../components/Button";
 import { Option } from "../../../types";
+import Loading from "../../../components/Loading";
 
 export type EditRecipeFormFields = {
   title: string;
@@ -33,6 +34,7 @@ export type EditRecipeFormFields = {
 
 const EditRecipeForm = () => {
   const { recipeId } = useParams();
+  const navigate = useNavigate();
 
   const { data, isLoading, isError } = useGetRecipeDetailsQuery(recipeId);
   const kinds = useGetKindsQuery();
@@ -66,7 +68,7 @@ const EditRecipeForm = () => {
     }
 
     if (kinds.data) {
-      const options = kinds.data.map((o, index) => ({
+      const options = kinds.data.map((o) => ({
         name: o.title,
         value: o._id,
         selected: o._id === data?.kind._id,
@@ -111,15 +113,18 @@ const EditRecipeForm = () => {
         date: data.date,
       })
         .unwrap()
-        .then(() => alert("Success"))
+        .then(() => navigate(`/${data._id}`))
         .catch((err) => alert(err.data.message));
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
   if (isError) return <div>Error</div>;
-
-  console.log(fields);
 
   return (
     <div>

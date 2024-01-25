@@ -84,7 +84,7 @@ const SignUpForm = () => {
         </span>
         <div className="flex justify-end">
           <Button variant="primary" type="submit" disabled={isDisabledButton}>
-            {isDisabledButton ? "Processing..." : "Sign Up"}
+            {!isDisabledButton ? "Sign Up" : "Processing..."}
           </Button>
         </div>
       </form>

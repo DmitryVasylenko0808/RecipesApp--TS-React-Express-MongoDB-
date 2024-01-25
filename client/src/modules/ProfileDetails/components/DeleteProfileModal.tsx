@@ -1,10 +1,10 @@
 import React from "react";
-import Modal from "../../../components/Modal";
-import Button from "../../../components/Button";
 import { useDeleteProfileMutation } from "../../../api/profiles/profilesApt";
 import { useNavigate } from "react-router";
 import { useAppDispatch } from "../../../redux/hooks";
 import { logOut } from "../../../redux/slices/authSlice";
+import Modal from "../../../components/Modal";
+import Button from "../../../components/Button";
 
 type DeleteProfileModalProps = {
   onClose: () => void;
