@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useGetProfileQuery } from "../../../api/profiles/profilesApt";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import Button from "../../../components/Button";
 import DeleteProfileModal from "./DeleteProfileModal";
 
@@ -29,7 +29,7 @@ const ProfileDetails = () => {
 
   const isUserProfile = isAuthenticate && userId === user?._id;
 
-  if (isError) return <div>Error</div>;
+  if (isError) return <Navigate to="*" replace />;
 
   return (
     <>

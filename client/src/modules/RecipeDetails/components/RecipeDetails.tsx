@@ -82,7 +82,7 @@ const RecipeDetails = () => {
         <Loading />
       </Container>
     );
-  if (isError) return <Navigate to="/" replace />;
+  if (isError) return <Navigate to="*" replace />;
 
   return (
     <div className="p-9">

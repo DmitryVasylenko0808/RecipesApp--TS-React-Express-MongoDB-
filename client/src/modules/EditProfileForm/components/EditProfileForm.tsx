@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import {
   useEditProfileMutation,
   useGetProfileQuery,
@@ -53,7 +53,7 @@ const EditProfileForm = () => {
         <Loading />
       </Container>
     );
-  if (isError) return <div>Error</div>;
+  if (isError) return <Navigate to="*" />;
 
   return (
     <div>
