@@ -197,6 +197,7 @@ const EditRecipeForm = () => {
                     {...register(`ingredients.${i}`, {
                       required: "Field is required",
                     })}
+                    key={ing}
                   />
                 ))}
                 <div className="flex justify-center">
@@ -218,6 +219,7 @@ const EditRecipeForm = () => {
                     {...register(`directions.${i}`, {
                       required: "Field is required",
                     })}
+                    key={dir}
                   />
                 ))}
                 <div className="flex justify-center">

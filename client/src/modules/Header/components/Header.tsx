@@ -10,9 +10,6 @@ import { useAuth } from "../../../hooks/useAuth";
 const Header = () => {
   const { isAuthenticate, user } = useAuth();
 
-  console.log(isAuthenticate);
-  console.log(user);
-
   return (
     <header className="bg-red">
       <Container>

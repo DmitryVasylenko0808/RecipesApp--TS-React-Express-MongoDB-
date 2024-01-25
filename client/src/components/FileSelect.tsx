@@ -58,7 +58,7 @@ const FileSelect = forwardRef<HTMLInputElement, FileSelectProps>(
             alt="avatar"
             width="200"
             height="200"
-            className="mb-3 rounded-full"
+            className={containerClassName}
           />
         ) : (
           <div className={containerClassName}>

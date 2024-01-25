@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import { useAuth } from "./hooks/useAuth";
 import { useAppDispatch } from "./redux/hooks";
 import { useLazyGetMeQuery } from "./api/auth/authApi";
@@ -7,16 +7,18 @@ import { setFavorites } from "./redux/slices/favoritesSlice";
 import { Route, Routes } from "react-router";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
-import MainPage from "./pages/MainPage";
-import RecipeDetailsPage from "./pages/RecipeDetailsPage";
 import RequireAuth from "./components/RequireAuth";
-import ProfileEditPage from "./pages/ProfileEditPage";
-import SignInPage from "./pages/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
-import CreateRecipePage from "./pages/CreateRecipePage";
-import EditRecipePage from "./pages/EditRecipePage";
-import ProfilePage from "./pages/ProfilePage";
-import NotFoundPage from "./pages/NotFoundPage";
+import Loading from "./components/Loading";
+
+const MainPage = lazy(() => import("./pages/MainPage"));
+const RecipeDetailsPage = lazy(() => import("./pages/RecipeDetailsPage"));
+const CreateRecipePage = lazy(() => import("./pages/CreateRecipePage"));
+const EditRecipePage = lazy(() => import("./pages/EditRecipePage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const ProfileEditPage = lazy(() => import("./pages/ProfileEditPage"));
+const SignInPage = lazy(() => import("./pages/SignInPage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -43,8 +45,8 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<MainPage />} />
         <Route path=":recipeId" element={<RecipeDetailsPage />} />
-        <Route path="create" element={<CreateRecipePage />} />
         <Route element={<RequireAuth />}>
+          <Route path="create" element={<CreateRecipePage />} />
           <Route path=":recipeId/edit" element={<EditRecipePage />} />
         </Route>
         <Route path="profile/:userId" element={<ProfilePage />} />
@@ -56,7 +58,14 @@ const App = () => {
         <Route path="sign-in" element={<SignInPage />} />
         <Route path="sign-up" element={<SignUpPage />} />
       </Route>
-      <Route path="*" element={<NotFoundPage />} />
+      <Route
+        path="*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <NotFoundPage />
+          </Suspense>
+        }
+      />
     </Routes>
   );
 };
